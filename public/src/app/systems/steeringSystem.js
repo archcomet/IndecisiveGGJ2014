@@ -58,8 +58,12 @@ define([
             desiredVelocity.copy(steering.target);
             desiredVelocity.sub(object3d.position);
 
+            var distance = object3d.position.distanceTo(steering.target);
+            distance = distance < 10 ? 0 : distance;
+            var speed = distance < steering.maxSpeed ? distance : steering.maxSpeed;
+
             desiredVelocity.normalize();
-            desiredVelocity.multiplyScalar(steering.maxSpeed);
+            desiredVelocity.multiplyScalar(speed);
 
             this.steerForVelocity(desiredVelocity, steering, object3d);
         },

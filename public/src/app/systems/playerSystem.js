@@ -19,7 +19,7 @@ define([
                 constructor: SteeringComponent,
                 defaults: {
                     maxSpeed: 20,
-                    maxAcceleration: 4
+                    maxAcceleration: 3
                 }
             },
             player: {
@@ -63,8 +63,9 @@ define([
         },
 
         'playerSeekDirection event': function(dx, dy) {
-            this.player.components(SteeringComponent).target.x = dx * 5000;
-            this.player.components(SteeringComponent).target.y = dy * 5000;
+            var pos = this.player.components(THREEComponent).mesh.position;
+            this.player.components(SteeringComponent).target.x = pos.x + dx * 50;
+            this.player.components(SteeringComponent).target.y = pos.y + dy * 50;
         }
 
     });
