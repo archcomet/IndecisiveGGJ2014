@@ -62,7 +62,6 @@ define([
             desiredVelocity.multiplyScalar(steering.maxSpeed);
 
             this.steerForVelocity(desiredVelocity, steering, object3d);
-
         },
 
         flee: function(steering, object3d) {
@@ -96,7 +95,26 @@ define([
                 steering.velocity.multiplyScalar(steering.maxSpeed);
             }
 
+            // adjust position
             object3d.position.add(steering.velocity);
+
+            // clamp position
+
+            if (object3d.position.x > 4000) {
+                object3d.position.x = 4000;
+
+            } else if (object3d.position.x < -4000) {
+                object3d.position.x = -4000;
+            }
+
+            if (object3d.position.y > 2500) {
+                object3d.position.y = 2500;
+
+            } else if (object3d.position.y < -2500) {
+                object3d.position.y = -2500;
+            }
+
+
         },
 
         updateRotation: function(steering, object3d) {

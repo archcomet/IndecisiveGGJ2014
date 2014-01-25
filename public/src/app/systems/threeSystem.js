@@ -27,14 +27,14 @@ define([
 
             this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 15000);
             this.camera.position.x = 0;
-            this.camera.position.y = 700;
-            this.camera.position.z = 1200;
+            this.camera.position.y = 0;
+            this.camera.position.z = 4000;
 
-            this.camera.lookAt(new THREE.Vector3(0, 700, 0));
+            this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
             this.scene = new THREE.Scene();
-            this.scene.fog = new THREE.Fog( 0x000000, 3500, 15000 );
-            this.scene.fog.color.setHSL( 0.51, 0.4, 0.01 );
+            //this.scene.fog = new THREE.Fog( 0x000000, 3500, 15000 );
+            //this.scene.fog.color.setHSL( 0.51, 0.4, 0.01 );
 
 
             var light = new THREE.PointLight( 0xffffff, 1.5, 10000);
@@ -42,9 +42,9 @@ define([
             light.position.set( 0, 700, 500 );
             this.scene.add(light);
 
-            light = new THREE.PointLight( 0xffffff, 1.5, 4500);
+            light = new THREE.PointLight( 0xffffff, 1.5, 10500);
             light.color.setHSL(0.0, 0.9, 0.5);
-            light.position.set( 2000, 1500, -2000 );
+            light.position.set( 0, 0, 2000 );
             this.scene.add(light);
 
 
