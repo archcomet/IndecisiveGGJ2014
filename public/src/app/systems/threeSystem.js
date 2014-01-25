@@ -1,8 +1,8 @@
 define([
     'cog',
     'three',
-    'components/cog-threeObject'
-], function(cog, THREE, THREEObject) {
+    'components/threeComponent'
+], function(cog, THREE, THREEComponent) {
 
     var THREESystem = cog.System.extend({
 
@@ -26,18 +26,18 @@ define([
             this.renderer.setSize(window.innerWidth, window.innerHeight);
 
             this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 15000);
-            this.camera.position.x = 1200;
-            this.camera.position.y = 1200;
+            this.camera.position.x = 0;
+            this.camera.position.y = 700;
             this.camera.position.z = 1200;
 
-            this.camera.lookAt(new THREE.Vector3(0, 700, -500));
+            this.camera.lookAt(new THREE.Vector3(0, 700, 0));
 
             this.scene = new THREE.Scene();
             this.scene.fog = new THREE.Fog( 0x000000, 3500, 15000 );
             this.scene.fog.color.setHSL( 0.51, 0.4, 0.01 );
 
 
-            var light = new THREE.PointLight( 0xffffff, 1.5, 1500);
+            var light = new THREE.PointLight( 0xffffff, 1.5, 10000);
             light.color.setHSL(0.55, 0.9, 0.5);
             light.position.set( 0, 700, 500 );
             this.scene.add(light);
@@ -52,7 +52,7 @@ define([
             window.addEventListener('resize', this.onWindowResize.bind(this), false );
         },
 
-        update: function() {
+        update: function(entities, events, dt) {
             this.renderer.render(this.scene, this.camera);
         },
 
@@ -66,9 +66,9 @@ define([
 
             if (threeObject instanceof cog.Entity) {
 
-                this.scene.add(threeObject.components(THREEObject).mesh);
+                this.scene.add(threeObject.components(THREEComponent).mesh);
 
-            } else if (threeObject instanceof THREEObject) {
+            } else if (threeObject instanceof THREEComponent) {
 
                 this.scene.add(threeObject.mesh);
 
@@ -82,9 +82,9 @@ define([
 
             if (threeObject instanceof cog.Entity) {
 
-                this.scene.remove(threeObject.components(THREEObject).mesh);
+                this.scene.remove(threeObject.components(THREEComponent).mesh);
 
-            } else if (threeObject instanceof THREEObject) {
+            } else if (threeObject instanceof THREEComponent) {
 
                 this.scene.remove(threeObject.mesh);
 

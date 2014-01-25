@@ -4,7 +4,7 @@
     require.config({
         paths: {
             'cog': 'libs/cog',
-            'box2d': 'libs/box2d',
+            'box2d': 'libs/Box2dWeb-2.1.a.3',
             'three': 'libs/three',
             'systems': 'app/systems',
             'components': 'app/components'
@@ -18,19 +18,19 @@
 
     require([
         'cog',
-        'systems/cog-box2d',
-        'systems/cog-three',
-        'systems/sandbox-pyramid'
+        'systems/threeSystem',
+        'systems/steeringSystem',
+        'systems/sandbox'
 
-    ], function(cog, Box2DSystem, THREESystem, PyradmidSystem) {
+    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem) {
 
         var game = cog.createDirector({
-            fixedDt: true
+            fixedDt: false
         });
 
-        game.systems.add(Box2DSystem);
-        game.systems.add(THREESystem);
-        game.systems.add(PyradmidSystem);
+        game.systems.add(ThreeSystem);
+        game.systems.add(SteeringSystem);
+        game.systems.add(SandboxSystem);
 
 
         game.start();
