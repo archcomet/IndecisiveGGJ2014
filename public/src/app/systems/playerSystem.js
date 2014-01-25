@@ -49,12 +49,12 @@ define([
 
         configure: function(entities, events) {
 
-            var entity = this.spawn();
+            var entity = this.spawn(),
+                steeringComponent = entity.components(SteeringComponent);
 
-            entity.components(SteeringComponent).behavior = 'seek';
-            entity.components(SteeringComponent).target.x = 4000;
-            entity.components(SteeringComponent).target.y = 4000;
-
+            steeringComponent.behavior = 'seek';
+            steeringComponent.target.x = 4000;
+            steeringComponent.target.y = 4000;
 
             this.player = entity;
 

@@ -21,9 +21,10 @@
         'systems/threeSystem',
         'systems/steeringSystem',
         'systems/sandbox',
-        'systems/playerSystem'
+        'systems/playerSystem',
+        'systems/enemySystem'
 
-    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem) {
+    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemySystem) {
 
         var game = cog.createDirector({
             fixedDt: false
@@ -33,6 +34,7 @@
         game.systems.add(SteeringSystem);
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
+        game.systems.add(EnemySystem);
 
         game.start();
 
