@@ -114,7 +114,6 @@ define([
                 object3d.position.y = -2500;
             }
 
-
         },
 
         updateRotation: function(steering, object3d) {

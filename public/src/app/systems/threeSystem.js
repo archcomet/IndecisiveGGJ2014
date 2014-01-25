@@ -56,6 +56,19 @@ define([
 
         update: function(entities, events, dt) {
             this.renderer.render(this.scene, this.camera);
+
+            var playerEntity = entities.withTag('Player')[0],
+                playerObject3d = playerEntity.components(THREEComponent).mesh,
+                playerPosition = playerObject3d.position;
+
+            var length = playerPosition.length() * 0.05;
+
+            var lookTarget = new THREE.Vector3();
+            lookTarget.copy(playerPosition);
+            lookTarget.normalize();
+            lookTarget.multiplyScalar(length);
+
+            this.camera.lookAt(lookTarget);
         },
 
         onWindowResize: function() {
