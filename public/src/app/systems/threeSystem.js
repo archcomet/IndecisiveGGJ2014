@@ -22,7 +22,9 @@ define([
         },
 
         configure: function() {
-            this.renderer = new THREE.WebGLRenderer();
+            this.renderer = new THREE.WebGLRenderer({alpha:true});
+            this.renderer.clearColor(0x000000, 0);
+
             this.renderer.setSize(window.innerWidth, window.innerHeight);
 
             this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 15000);
