@@ -55,8 +55,6 @@ define([
             entity.components(SteeringComponent).behavior = 'seek';
             entity.components(SteeringComponent).target.x = 0;
             entity.components(SteeringComponent).target.y = 0;
-            entity.components(SteeringComponent).position.x = 0;
-            entity.components(SteeringComponent).position.y = 0;
 
 
             this.player = entity;

@@ -47,7 +47,8 @@ define([
                             x: 0,
                             y: 500,
                             z: 0
-                        }
+                        },
+                        position: y
                     });
 
                     events.emit('addToScene', box);
