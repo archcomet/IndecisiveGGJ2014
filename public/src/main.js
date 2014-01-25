@@ -6,13 +6,15 @@
             'cog': 'libs/cog',
             'box2d': 'libs/Box2dWeb-2.1.a.3',
             'three': 'libs/three',
+            'gamepad': 'libs/gamepad',
             'systems': 'app/systems',
             'components': 'app/components'
         },
 
         shim: {
             'box2d': { exports: 'Box2D' },
-            'three': { exports: 'THREE' }
+            'three': { exports: 'THREE' },
+            'gamepad': { exports: 'Gamepad' }
         }
     });
 
@@ -21,9 +23,9 @@
         'systems/threeSystem',
         'systems/steeringSystem',
         'systems/sandbox',
-        'systems/playerSystem'
-
-    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem) {
+        'systems/playerSystem',
+        'systems/gamepadSystem'
+    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, GamepadSystem) {
 
         var game = cog.createDirector({
             fixedDt: false
@@ -33,6 +35,7 @@
         game.systems.add(SteeringSystem);
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
+        game.systems.add(GamepadSystem);
 
         game.start();
 

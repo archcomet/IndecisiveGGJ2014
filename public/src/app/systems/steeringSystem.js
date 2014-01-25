@@ -41,7 +41,7 @@ define([
 
             var targetOffset = new THREE.Vector3();
             targetOffset.copy(steering.target);
-            targetOffset.sub(object3d.position);
+            targetOffset.sub(steering.position);
 
             var distance = targetOffset.length(),
                 rampedSpeed = steering.maxSpeed * (distance / steering.slowingDistance),
@@ -56,7 +56,7 @@ define([
 
             var desiredVelocity = new THREE.Vector3();
             desiredVelocity.copy(steering.target);
-            desiredVelocity.sub(object3d.position);
+            desiredVelocity.sub(steering.position);
 
             desiredVelocity.normalize();
             desiredVelocity.multiplyScalar(steering.maxSpeed);
@@ -67,7 +67,7 @@ define([
         flee: function(steering, object3d) {
 
             var desiredVelocity = new THREE.Vector3();
-            desiredVelocity.copy(object3d.position);
+            desiredVelocity.copy(steering.position);
             desiredVelocity.sub(steering.target);
 
             desiredVelocity.normalize();
@@ -96,30 +96,31 @@ define([
             }
 
             // adjust position
-            object3d.position.add(steering.velocity);
+            steering.position.add(steering.velocity);
 
             // clamp position
 
-            if (object3d.position.x > 4000) {
-                object3d.position.x = 4000;
+            if (steering.position.x > 4000) {
+                steering.position.x = 4000;
 
-            } else if (object3d.position.x < -4000) {
-                object3d.position.x = -4000;
+            } else if (steering.position.x < -4000) {
+                steering.position.x = -4000;
             }
 
-            if (object3d.position.y > 2500) {
-                object3d.position.y = 2500;
+            if (steering.position.y > 2500) {
+                steering.position.y = 2500;
 
-            } else if (object3d.position.y < -2500) {
-                object3d.position.y = -2500;
+            } else if (steering.position.y < -2500) {
+                steering.position.y = -2500;
             }
 
+            object3d.position = steering.position;
         },
 
         updateRotation: function(steering, object3d) {
 
             var facing = new THREE.Vector3();
-            facing.copy(object3d.position);
+            facing.copy(steering.position);
             facing.add(steering.velocity);
             object3d.lookAt(facing);
 

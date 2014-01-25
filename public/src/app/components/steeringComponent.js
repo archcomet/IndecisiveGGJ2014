@@ -19,7 +19,8 @@ define([
             // things for calculations
 
             velocity: null,
-            target: null
+            target: null,
+            position: null
         },
 
         init: function(entity, props) {
@@ -27,6 +28,7 @@ define([
 
             this.target = this.target || new THREE.Vector3();
             this.velocity = new THREE.Vector3();
+            this.position = new THREE.Vector3();
         }
 
     });
