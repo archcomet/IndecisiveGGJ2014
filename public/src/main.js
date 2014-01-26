@@ -38,6 +38,7 @@
         'systems/backgroundSystem',
         'systems/roomSystem'
 
+
     ], function(cog, $,
                 SoundSystem,
                 ThreeSystem,
@@ -56,7 +57,7 @@
 
         var game = cog.createDirector({
             fixedDt: false,
-            soundEnabled: true,
+            soundEnabled: false,
             assetDirectory: '../public/src/assets/',
             sounds: [
                 {

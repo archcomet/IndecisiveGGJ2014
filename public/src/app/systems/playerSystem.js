@@ -18,7 +18,7 @@ define([
 
     var MATERIAL = new THREE.MeshPhongMaterial({
         ambient: 0x333333,
-        color: 0x00ff00,
+        color: 0xffffff,
         emissive: 0xaaaaaa,
         shininess: 100
     });
@@ -52,7 +52,7 @@ define([
             steering: {
                 constructor: SteeringComponent,
                 defaults: {
-                    maxSpeed: 20,
+                    maxSpeed: 60,
                     maxAcceleration: 3,
                     avoidCorners: false
                 }
@@ -150,10 +150,10 @@ define([
                 }
             } else if(playerPosition.x > -500 && playerPosition.x < 500) {
                 if(playerPosition.y === 2500) {
-                    events.emit("door", "down", events);
+                    events.emit("door", "up", events);
                     playerPosition.y = -2490;
                 } else if(playerPosition.y === -2500) {
-                    events.emit("door", "up", events);
+                    events.emit("door", "down", events);
                     playerPosition.y = 2490;
                 }
             }

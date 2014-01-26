@@ -11,7 +11,7 @@ define([
         },
 
         'addMood event': function(mood) {
-            var bg = document.getElementById('background');
+            /*var bg = document.getElementById('background');
             var div = document.createElement('div');
             if(mood === 'positive') {
                 div.style.backgroundColor = "#777";
@@ -20,7 +20,7 @@ define([
             }
             div.style.width = "300px";
             div.style.height = "300px";
-            bg.appendChild(div);
+            bg.appendChild(div);*/
         }
     });
 

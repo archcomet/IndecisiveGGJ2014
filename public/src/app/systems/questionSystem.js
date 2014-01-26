@@ -45,19 +45,17 @@ define([
                         }
                         break;
                     case "attraction":
-                        if(values[1] === "girl") {
-                            this.otherGender = "girl";
-                            this.otherPronoun = "she";
+                        if(values[1] === "other") {
                         } else {
-                            this.otherGender = "guy";
-                            this.otherPronoun = "he";
+                            this.otherGender = this.gender;
+                            this.otherPronoun = this.pronoun;
                         }
                         break;
                 }
             }.bind(this);
 
             //t.innerText = this.replace(Tree.questions.Basic1.question);
-            events.emit("changeText", this.replace(Tree.questions.Basic1.question));
+            events.emit("changeQuestion", this.replace(Tree.questions.Basic1.question));
         },
 
         update: function(entities, events) {
@@ -100,21 +98,27 @@ define([
             var next = "";
             if(!Tree.questions[this.pointer].statement) {
                 var answers = Tree.questions[this.pointer].answers;
-                if(choice === 'up') {
+                if(choice === answers.agree.position) {
                     next = answers.agree.next;
                     if(answers.agree.command) {
                         this.setValue(answers.agree.command);
                     }
-                } else if(choice === 'down') {
+                } else if(choice === answers.disagree.position) {
                     next = answers.disagree.next;
                     if(answers.agree.command) {
                         this.setValue(answers.disagree.command);
                     }
+                } else {
+                    return;
                 }
             }
 
             if(!next) {
                 next = Tree.questions[this.pointer].next;
+            }
+
+            if(!next) {
+                return;
             }
 
             if(Tree.questions[next].year) {
@@ -123,12 +127,41 @@ define([
 
             this.pointer = next;
 
-            //var t = document.getElementById("questions");
-            //t.innerText = this.replace(Tree.questions[this.pointer].question);
+            var doorStr = "";
+            switch(choice) {
+                case "up":
+                    doorStr = "SOUTH";
+                    break;
+                case "left":
+                    doorStr = "WEST";
+                    break;
+                case "right":
+                    doorStr = "EAST";
+                    break;
+                case "down":
+                    doorStr = "NORTH";
+                    break;
+            }
 
-            events.emit("changeText", this.replace(Tree.questions[this.pointer].question));
+            events.emit("changeQuestion", this.replace(Tree.questions[this.pointer].question));
+            if(!Tree.questions[this.pointer].statement) {
+                events.emit("changeAnswer", Tree.questions[this.pointer].answers.agree.position, Tree.questions[this.pointer].answers.agree.answer);
+                events.emit("changeAnswer", Tree.questions[this.pointer].answers.disagree.position, Tree.questions[this.pointer].answers.disagree.answer);
 
+                events.emit('changeRoom', { door: doorStr, enemyCount: 10 });
+            } else {
+                events.emit("changeAnswer", "up", "");
+                events.emit("changeAnswer", "down", "");
+                events.emit("changeAnswer", "left", "");
+                events.emit("changeAnswer", "right", "");
+
+                events.emit('changeRoom', { door: doorStr, enemyCount: 0 });
+            }
             events.emit("addMood");
+        },
+
+        'roomClear event': function() {
+            console.log('cleared the room');
         }
     });
 
