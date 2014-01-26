@@ -129,7 +129,7 @@ define([
 
         }
 
-});
+    });
 
     cog.SteeringSystem = SteeringSystem;
 

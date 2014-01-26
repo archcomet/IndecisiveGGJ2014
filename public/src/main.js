@@ -8,7 +8,8 @@
             'three': 'libs/three',
             'gamepad': 'libs/gamepad',
             'systems': 'app/systems',
-            'components': 'app/components'
+            'components': 'app/components',
+            'questions': 'app/questions'
         },
 
         shim: {
@@ -24,8 +25,9 @@
         'systems/steeringSystem',
         'systems/sandbox',
         'systems/playerSystem',
-        'systems/gamepadSystem'
-    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, GamepadSystem) {
+        'systems/gamepadSystem',
+        'systems/questionSystem'
+    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, GamepadSystem, QuestionSystem) {
 
         var game = cog.createDirector({
             fixedDt: false
@@ -36,6 +38,7 @@
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
         game.systems.add(GamepadSystem);
+        game.systems.add(QuestionSystem);
 
         game.start();
 

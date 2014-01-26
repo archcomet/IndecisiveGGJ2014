@@ -67,7 +67,6 @@ define([
             this.player.components(SteeringComponent).target.x = pos.x + dx * 50;
             this.player.components(SteeringComponent).target.y = pos.y + dy * 50;
         }
-
     });
 
     cog.SandboxSystem = PlayerSystem;
