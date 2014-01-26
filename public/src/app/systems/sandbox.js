@@ -14,8 +14,8 @@ define([
 
         createWalls: function(entities, events) {
 
-            var horizontalWall = new THREE.CubeGeometry(8000, 100, 100),
-                verticalWall = new THREE.CubeGeometry(100, 5200, 100);
+            var horizontalWall = new THREE.CubeGeometry(3800, 100, 100),
+                verticalWall = new THREE.CubeGeometry(100, 2300, 100);
 
             var wallMaterial = new THREE.MeshPhongMaterial({
                 ambient: 0xff0000,
@@ -23,12 +23,17 @@ define([
                 shininess: 50
             });
 
-            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 0, 2550, 0);
-            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 0, -2550, 0);
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 2200, 2550, 0);
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 2200, -2550, 0);
 
-            this.createWallEntity(entities, events, verticalWall, wallMaterial, 4050, 0, 0);
-            this.createWallEntity(entities, events, verticalWall, wallMaterial, -4050, 0, 0);
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, 4050, 1400, 0);
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, -4050, 1400, 0);
 
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, -2200, 2550, 0);
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, -2200, -2550, 0);
+
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, 4050, -1400, 0);
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, -4050, -1400, 0);
         },
 
         createWallEntity: function(entities, events, geometry, material, x, y, z) {
