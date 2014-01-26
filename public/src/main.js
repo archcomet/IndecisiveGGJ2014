@@ -34,11 +34,8 @@
         'systems/gamepadSystem',
         'systems/promptSystem'
         
-<<<<<<< HEAD
-    ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem) {
-=======
-    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, PromptSystem) {
->>>>>>> d18f96fcd3a94ba897fc96111051248ecdeb231b
+    ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem,
+                PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem) {
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -76,34 +73,22 @@
                 {
                     name: 'mystery',
                     fileName: 'music/mystery.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.889
-                    }
+                    loop: true
                 },
                 {
                     name: 'square',
                     fileName: 'music/square.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.889
-                    }
+                    loop: true
                 },
                 {
                     name: 'triangle',
                     fileName: 'music/triangle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.889
-                    }
+                    loop: true
                 },
                 {
                     name: 'circle',
                     fileName: 'music/circle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.889
-                    }
+                    loop: true
                 }
             ]
         });
@@ -113,6 +98,10 @@
         game.systems.add(KeyboardSystem);
         game.systems.add(ThreeSystem);
         game.systems.add(MeshSystem);
+
+        game.events.emit('playSound', 'mystery');
+        game.events.emit('playSound', 'triangle', 0);
+        game.events.emit('playSound', 'square', 0);
 
         // Input
         game.systems.add(KeyboardSystem);

@@ -77,19 +77,17 @@ define([
 
         },
 
-        _createSoundSource: function(sound) {
+        _createSoundSource: function(sound, gain) {
 
             var source = this._audioContext.createBufferSource();
+            var gainNode = this._audioContext.createGain ? this._audioContext.createGain() : this._audioContext.createGainNode();
+            gainNode.value = gain;
             source.buffer = sound.buffer;
+            source.connect(gainNode);
             source.connect(this._audioContext.destination);
 
             // apply looping properties to buffer
-            if (sound.loop) {
-                source.loopStart = sound.loop.start;
-                source.loopEnd = sound.loop.stop;
-                source.loop = true;
-            }
-
+            if (sound.loop) source.loop = true;
             return source;
 
         },
@@ -102,19 +100,19 @@ define([
 
             if (this.playQueue.length == 0) return;
 
-            var soundName = this.playQueue[0];
-            if (this.sounds[soundName]) {
+            var soundData = this.playQueue[0];
+            if (this.sounds[soundData.name]) {
                 this.playQueue.shift();
-                this._playSound(soundName, true);
+                this._playSound(soundData.name, soundData.gain, true);
             }
 
         },
 
-        _playSound: function (name, noQueue) {
+        _playSound: function (name, gain, noQueue) {
 
             var sound = this.sounds[name];
             if (sound) {
-                var source = this._createSoundSource (sound);
+                var source = this._createSoundSource (sound, gain);
                 sound.sources = sound.sources || [];
                 sound.sources.push(source);
                 source.start(0);
@@ -122,15 +120,37 @@ define([
                 // sound wasn't found. queue the play request as the file may
                 // still be downloading.
                 if (!noQueue) {
-                    this.playQueue.push(name);
+                    this.playQueue.push({ name: name, gain: gain });
                 }
             }
 
         },
 
-        'playSound event': function(name) {
+        'playSound event': function(name, gain) {
 
-            this._playSound(name);
+            this._playSound(name, gain);
+
+        },
+
+        'muteSound event': function(name) {
+
+            var sound = this.sounds[name];
+            if (sound.sources ) {
+                for (var i=0; i < sound.sources.length; i++) {
+                    sound.sources[i].gain.value =0;
+                }
+            }
+
+        },
+
+        'unmuteSound event': function(name) {
+
+            var sound = this.sounds[name];
+            if (sound.sources ) {
+                for (var i=0; i < sound.sources.length; i++) {
+                    sound.sources[i].gain.value =1;
+                }
+            }
 
         },
 
