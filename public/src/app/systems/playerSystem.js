@@ -159,7 +159,7 @@ define([
 
         updateEvents: function(playerPosition, events) {
             // send events at doors
-            if(playerPosition.y > -500 && playerPosition.y < 500) {
+            if(playerPosition.y > -400 && playerPosition.y < 400) {
                 if(playerPosition.x === 4000) {
                     events.emit("door", "right", events);
                     playerPosition.x = -3990;
@@ -167,7 +167,7 @@ define([
                     events.emit("door", "left", events);
                     playerPosition.x = 3990;
                 }
-            } else if(playerPosition.x > -500 && playerPosition.x < 500) {
+            } else if(playerPosition.x > -400 && playerPosition.x < 400) {
                 if(playerPosition.y === 2500) {
                     events.emit("door", "up", events);
                     playerPosition.y = -2490;
