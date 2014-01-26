@@ -14,9 +14,9 @@ define([
             replace: null,
             pointer: "Basic1",
             setValue: null,
-            friendName: "Sam",
+            friendName: "Pat",
             currentDate: 1988,
-            otherName: "Robert"
+            otherName: "Sam"
         },
 
         configure: function(entities, events) {
