@@ -25,18 +25,30 @@
         'cog',
         'jquery',
         'systems/soundSystem',
-        'systems/keyboardSystem',
         'systems/threeSystem',
-        'systems/steeringSystem',
+        'systems/meshSystem',
+        'systems/keyboardSystem',
+        'systems/gamepadSystem',
+        'systems/promptSystem',
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
-        'systems/meshSystem',
-        'systems/gamepadSystem',
-        'systems/promptSystem'
+        'systems/steeringSystem',
+        'systems/roomSystem'
 
-    ], function(cog, $, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem) {
-
+    ], function(cog, $,
+                SoundSystem,
+                ThreeSystem,
+                MeshSystem,
+                KeyboardSystem,
+                GamepadSystem,
+                PromptSystem,
+                SandboxSystem,
+                PlayerSystem,
+                EnemyAISystem,
+                SteeringSystem,
+                RoomSystem
+        ) {
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -95,6 +107,7 @@
 
         // Locamotion
         game.systems.add(SteeringSystem);
+        game.systems.add(RoomSystem);
 
         game.start();
 
