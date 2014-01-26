@@ -62,6 +62,7 @@ define([
             this.player = entity;
 
             events.emit('addToScene', entity);
+            events.emit('playSound', 'square');
         },
 
         update: function(entities, events) {
