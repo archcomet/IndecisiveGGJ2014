@@ -141,6 +141,10 @@ define([
                 events.emit("changeAnswer", "right", "");
             }
             events.emit("addMood");
+        },
+
+        'roomClear event': function() {
+            console.log('cleared the room');
         }
     });
 
