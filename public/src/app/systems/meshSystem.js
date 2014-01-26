@@ -60,6 +60,19 @@ define([
                 case MaterialComponent.TYPE_PREDATOR:
                     material = entityMaterial.predatorMaterial;
                     break;
+
+                case MaterialComponent.TYPE_SQUARE:
+                    material = entityMaterial.squareMaterial;
+                    break;
+
+                case MaterialComponent.TYPE_TRIANGLE:
+                    material = entityMaterial.triangleMaterial;
+                    break;
+
+                case MaterialComponent.TYPE_CIRCLE:
+                    material = entityMaterial.circleMaterial;
+                    break;
+
             }
 
             position = entityThree.mesh ? entityThree.mesh.position : entityThree.spawnPosition;
