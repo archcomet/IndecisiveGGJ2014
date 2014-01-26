@@ -5,38 +5,48 @@ define([
 
     var PromptSystem = cog.System.extend('PromptSystem', {
 
+        defaults: {
+
+           animateCount: 0
+        },
+
         configure: function () {
 
             this.animatePrompt();
-
         },
 
         update: function () {
 
-            this.animatePrompt();
+            this.animatePrompt()
         },
+
 
         animatePrompt: function () {
-            var newq = this.createNewPosition();
-            var $prompt = $("#prompt");
-            $prompt.animate({ top: newq[0], left: newq[1]}, 7000);
-            $prompt.animate({step: function() {
-                $prompt.css('transform','rotate('+newq[2]+'deg)');
-            }}, 100)
 
-        },
 
-        createNewPosition: function () {
+            if (this.animateCount === 60) {
+                var $prompt = $("#prompt"),
+                    theContainer = $("#container"),
+                    maxLeft = theContainer.width()/5,
+                    maxTop = theContainer.height()/5,
+                    leftPos = Math.floor(Math.random() * maxLeft),
+                    topPos = Math.floor(Math.random() * maxTop);
 
-            var h = $(window).height() - 400;
-            var w = $(window).width() - 400;
 
-            var nh = Math.floor(Math.random() * h);
-            var nw = Math.floor(Math.random() * w);
-            var na = Math.floor(Math.random() * 100);
-
-            return [nh, nw, na];
+                $prompt.animate({
+                    left: leftPos,
+                    top: topPos
+                }, 1000);
+                this.animateCount = 0;
+            }
+            else {
+                this.animateCount++
+            }
         }
+
+
+
+
 
     });
 

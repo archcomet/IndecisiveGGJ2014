@@ -9,12 +9,12 @@
             'systems': 'app/systems',
             'components': 'app/components',
             'jquery': 'libs/jquery.min'
+
         },
 
         shim: {
             'box2d': { exports: 'Box2D' },
-            'three': { exports: 'THREE' }
-        }
+            'three': { exports: 'THREE' }        }
     });
 
     require([

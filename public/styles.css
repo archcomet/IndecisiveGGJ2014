@@ -1,4 +1,10 @@
 @font-face { font-family: Arcade; src: url('src/fonts/emulogic.ttf'); }
+
+@keyframes pulse {
+    0% { background: lime; }
+    100% { background: green; }
+}
+
 body, html {
     margin: 0;
     padding: 0;
@@ -25,10 +31,11 @@ canvas {
     right: 0;
     bottom: 0;
     left: 0;
-    font-size: 30px;
+    font-size: 1.5em;
     width: 500px;
     height: 300px;
     font-family: Arcade;
+    animation: pulse 2s ease infinite alternate;
 
 }
 
