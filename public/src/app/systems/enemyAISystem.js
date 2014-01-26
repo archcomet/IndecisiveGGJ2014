@@ -100,7 +100,7 @@ define([
             enemySteering.maxSpeed *= cog.rand.arc4rand(1.75, 2.25);
             enemySteering.maxAcceleration *= cog.rand.arc4rand(0.75, 1.25);
 
-            enemyShape.geometryType = cog.rand.arc4randInt(0, 2);
+            enemyShape.geometryType = config.geometryType || cog.rand.arc4randInt(0, 2);
             enemyShape.needsUpdate = true;
 
             enemyThree.spawnPosition = new THREE.Vector3(config.position.x, config.position.y, 0);

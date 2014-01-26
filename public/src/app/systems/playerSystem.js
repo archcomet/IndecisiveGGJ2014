@@ -108,6 +108,8 @@ define([
                 }
             }
 
+            this.updateEvents(playerPosition, events);
+
             if (this.direction) {
                 playerSteering.behavior = 'seek';
                 playerSteering.target.x = playerPosition.x + this.direction.dx * 50;
@@ -139,6 +141,27 @@ define([
             this.events.emit('despawn Enemy', enemy);
         },
 
+        updateEvents: function(playerPosition, events) {
+            // send events at doors
+            if(playerPosition.y > -500 && playerPosition.y < 500) {
+                if(playerPosition.x === 4000) {
+                    events.emit("door", "right", events);
+                    playerPosition.x = -3990;
+                } else if(playerPosition.x === -4000) {
+                    events.emit("door", "left", events);
+                    playerPosition.x = 3990;
+                }
+            } else if(playerPosition.x > -500 && playerPosition.x < 500) {
+                if(playerPosition.y === 2500) {
+                    events.emit("door", "down", events);
+                    playerPosition.y = -2490;
+                } else if(playerPosition.y === -2500) {
+                    events.emit("door", "up", events);
+                    playerPosition.y = 2490;
+                }
+            }
+        },
+
         'playerSeekDirection event': function(dx, dy) {
             this.direction = {
                 dx: dx,
@@ -155,26 +178,25 @@ define([
 
                 switch(geometryType) {
                     case ShapeComponent.TYPE_SQUARE:
-                        this.events.emit('playSound', 'square');
-                        this.events.emit('stopSound', 'triangle');
-                        this.events.emit('stopSound', 'circle');
+                        this.events.emit('unmuteSound', 'square');
+                        this.events.emit('muteSound', 'triangle');
+                        this.events.emit('muteSound', 'mystery');
                         break;
                     case ShapeComponent.TYPE_TRIANGLE:
-                        this.events.emit('stopSound', 'square');
-                        this.events.emit('playSound', 'triangle');
-                        this.events.emit('stopSound', 'circle');
+                        this.events.emit('unmuteSound', 'triangle');
+                        this.events.emit('muteSound', 'square');
+                        this.events.emit('muteSound', 'mystery');
                         break;
                     case ShapeComponent.TYPE_CIRCLE:
-                        this.events.emit('stopSound', 'square');
-                        this.events.emit('stopSound', 'triangle');
-                        this.events.emit('playSound', 'circle');
+                        this.events.emit('unmuteSound', 'mystery');
+                        this.events.emit('muteSound', 'square');
+                        this.events.emit('muteSound', 'triangle');
                         break;
                 }
 
                 this.currentShape = geometryType;
             }
         }
-
     });
 
     cog.SandboxSystem = PlayerSystem;

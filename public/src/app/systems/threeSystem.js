@@ -42,28 +42,41 @@ define([
             //this.scene.fog = new THREE.Fog( 0x000000, 3500, 15000 );
             //this.scene.fog.color.setHSL( 0.51, 0.4, 0.01 );
 
-
-            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
-            light.position.set( -4000, 2500, 300 );
+            // door lights
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( -4000, 300, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( 4000, 300, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( -4000, -300, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( 4000, -300, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( -300, 2500, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( 300, 2500, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( -300, -2500, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+            var light = new THREE.PointLight( 0x1dfff1, 0.9, 2000);
+            light.position.set( 300, -2500, 300 );
             this.scene.add(light);
             pointLights.push(light);
 
-            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
-            light.position.set( 4000, 2500, 300 );
-            this.scene.add(light);
-            pointLights.push(light);
-
-            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
-            light.position.set( -4000, -2500, 300 );
-            this.scene.add(light);
-            pointLights.push(light);
-
-            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
-            light.position.set( 4000, -2500, 300 );
-            this.scene.add(light);
-            pointLights.push(light);
-
-            var light = new THREE.PointLight( 0x4444ff, 2.5, 12000);
+            var light = new THREE.PointLight( 0x9e24ff, 2.5, 12000);
             light.position.set( 0, 0, -5000 );
             this.scene.add(light);
             pointLights.push(light);

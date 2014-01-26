@@ -10,7 +10,7 @@ define([
 
     var SteeringSystem = cog.System.extend('SteeringSystem', {
 
-        update: function(entities) {
+        update: function(entities, events) {
 
             var steering, object3d,
                 entityArray = entities.withComponents(SteeringComponent, ThreeComponent),
@@ -162,7 +162,6 @@ define([
             object3d.position.add(steering.velocity);
 
             // clamp position
-
             if (object3d.position.x > 4000) {
                 object3d.position.x = 4000;
 
@@ -176,7 +175,6 @@ define([
             } else if (object3d.position.y < -2500) {
                 object3d.position.y = -2500;
             }
-
         },
 
         updateRotation: function(steering, object3d) {
@@ -189,8 +187,7 @@ define([
             object3d.lookAt(facing);
 
         }
-
-});
+    });
 
     cog.SteeringSystem = SteeringSystem;
 

@@ -12,14 +12,15 @@ define([
 
         configure: function(entities, events) {
             this.createWalls(entities, events);
-            lines = this.summonLines(entities, events);
+            // lines = this.summonLines(entities, events);
             hilbert = this.summonLineCube(entities, events);
         },
 
         createWalls: function(entities, events) {
 
-            var horizontalWall = new THREE.CubeGeometry(8000, 100, 100),
-                verticalWall = new THREE.CubeGeometry(100, 5200, 100);
+            var horizontalWall = new THREE.CubeGeometry(3800, 100, 100),
+                verticalWall = new THREE.CubeGeometry(100, 2300, 100),
+                fillWall = new THREE.CubeGeometry(5000, 5000, 100);
 
             var wallMaterial = new THREE.MeshPhongMaterial({
                 // ambient: 0xffffff,
@@ -27,12 +28,39 @@ define([
                 // emissive: 0xffffff,
                 shininess: 50
             });
+            var fillWallMaterial = new THREE.MeshPhongMaterial({
+                // ambient: 0xffffff,
+                color: 0xffffff,
+                // emissive: 0x000033,
+                emissive: 0x071b46,
+                transparent: true,
+                opacity: 0.5,
+                shininess: 50,
+                side: THREE.DoubleSide
+            });
 
-            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 0, 2550, 0);
-            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 0, -2550, 0);
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 2200, 2550, 0);
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 2200, -2550, 0);
 
-            this.createWallEntity(entities, events, verticalWall, wallMaterial, 4050, 0, 0);
-            this.createWallEntity(entities, events, verticalWall, wallMaterial, -4050, 0, 0);
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, 4050, 1400, 0);
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, -4050, 1400, 0);
+
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, -2200, 2550, 0);
+            this.createWallEntity(entities, events, horizontalWall, wallMaterial, -2200, -2550, 0);
+
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, 4050, -1400, 0);
+            this.createWallEntity(entities, events, verticalWall, wallMaterial, -4050, -1400, 0);
+
+            // FILL WALLS
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, 6600, -2750, 0);
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, -6600, -2750, 0);
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, 6600, 2750, 0);
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, -6600, 2750, 0);
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, 2800, 5100, 0);
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, -2800, 5100, 0);
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, 2800, -5100, 0);
+            this.createWallEntity(entities, events, fillWall, fillWallMaterial, -2800, -5100, 0);
+
 
             var line = new THREE.RenderableLine();
             line.v1.position = new THREE.Vector3(0, 0, 0);
@@ -98,9 +126,15 @@ define([
               line.updateMatrix();
               events.emit('addToScene', line );
               lines.push(line);
-              line.position.y = 4000;
-              line.rotation.x = 135;
+              line.position.y = Math.random() * 3000;
+              line.rotation.x = 135.1;
+              line.position.x = Math.random() * 8000 - 4000 + 100;
               line.position.z = -400;
+              line.material.transparent = true;
+              line.material.opacity = Math.random() * 0.3;
+              line.material.color.r = Math.random() * 0.3 + 0.7;
+              line.material.color.g = Math.random() * 0.3 + 0.7;
+              line.material.color.b = Math.random() * 0.3 + 0.7;
 
             }
 
@@ -111,10 +145,10 @@ define([
         {
           for(var i = 0; i < lines.length; i++)
           {
-            lines[i].position.x = Math.random() * 20000 - 10000;
-            lines[i].material.color.r = Math.random() * 0.7 - 0.0;
-            lines[i].material.color.g = Math.random() * 0.7 - 0.0;
-            lines[i].material.color.b = Math.random() * 0.7 - 0.0;
+            lines[i].position.x += (Math.sin(Date.now())) * Math.random()*20 - 0;
+            lines[i].position.y += Math.random()*40 - 0;
+            if(lines[i].position.y > 3000)
+                lines[i].position.y = -3000;
           }
         },
 
@@ -181,11 +215,11 @@ define([
             {
               if(i == hotSpot)
               {
-                lineCube.colors[i].setRGB(1,1,1);
+                lineCube.colors[i].setRGB(1,0.3,0.3);
               }
               else
               {
-                lineCube.colors[i].setRGB(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
+                lineCube.colors[i].setRGB(0.2, 0.2, Math.random()-0.5 + 0.3);
               }
               lineCube.colorsNeedUpdate = true;
             }
@@ -212,7 +246,7 @@ define([
 
         update: function(entities, events, dt)
         {
-          this.lineUpdate(lines);
+          // this.lineUpdate(lines);
           hotSpot = this.lineCubeUpdate(hilbert, hotSpot);
         }
 
