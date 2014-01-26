@@ -7,7 +7,7 @@ define([
 
 ], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent) {
 
-    var PlayerSystem = cog.Factory.extend('SandboxSystem', {
+    var PlayerSystem = cog.Factory.extend('PlayerSystem', {
 
         entityTag: 'Player',
 
