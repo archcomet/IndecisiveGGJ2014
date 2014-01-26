@@ -1,8 +1,9 @@
 define([
+    'cog',
     'jquery',
     'jquery.easing'
 
-], function ($) {
+], function (cog, $) {
 
     var PromptSystem = cog.System.extend('PromptSystem', {
 

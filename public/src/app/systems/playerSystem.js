@@ -77,6 +77,7 @@ define([
             steeringComponent.target.x = 0;
             steeringComponent.target.y = 0;
 
+            this.events = events;
             this.player = entity;
         },
 
@@ -122,7 +123,22 @@ define([
         },
 
         handleCollision: function(enemy) {
-        //     game.events.emit('playSound', 'shape_disappear');
+
+            var enemyPosition = enemy.components(THREEComponent).mesh.position,
+                enemyGeometry = enemy.components(ShapeComponent).geometryType,
+                playerGeometry = this.player.components(ShapeComponent).geometryType;
+
+            if (enemyGeometry === playerGeometry) {
+                this.events.emit('playSound', 'shape_appear');
+                this.events.emit('goodCollision', enemyPosition);
+
+            } else {
+
+                this.events.emit('playSound', 'shape_disappear');
+                this.events.emit('badCollision', enemyPosition);
+            }
+
+            this.events.emit('despawn Enemy', enemy);
         },
 
         updateEvents: function(playerPosition, events) {

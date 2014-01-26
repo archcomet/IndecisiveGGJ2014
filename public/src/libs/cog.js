@@ -1685,7 +1685,10 @@
                 var self = this;
                 this['spawn ' + this.entityTag + ' event'] = function() {
                     self.spawn.apply(self, arguments);
-                }
+                };
+                this['despawn ' + this.entityTag + ' event'] = function() {
+                    self.despawn.apply(self, arguments);
+                };
             }
         },
 
