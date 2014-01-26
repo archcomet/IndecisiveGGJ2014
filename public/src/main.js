@@ -30,7 +30,43 @@
     ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, GamepadSystem, QuestionSystem) {
 
         var game = cog.createDirector({
-            fixedDt: false
+            fixedDt: false,
+            soundEnabled: true,
+            assetDirectory: '../public/src/assets/',
+            sounds: [
+                {
+                    name: 'shape_appear',
+                    fileName: 'sfx/shape-appear.mp3'
+                },
+                {
+                    name: 'shape_disappear',
+                    fileName: 'sfx/shape-disappear.mp3'
+                },
+                {
+                    name: 'square',
+                    fileName: 'music/square.mp3',
+                    loop: {
+                        start: 0,
+                        stop: 13.10
+                    }
+                },
+                {
+                    name: 'triangle',
+                    fileName: 'music/triangle.mp3',
+                    loop: {
+                        start: 0,
+                        stop: 13.10
+                    }
+                },
+                {
+                    name: 'circle',
+                    fileName: 'music/circle.mp3',
+                    loop: {
+                        start: 0,
+                        stop: 13.10
+                    }
+                }
+            ]
         });
 
         game.systems.add(ThreeSystem);

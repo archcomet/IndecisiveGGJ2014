@@ -61,7 +61,7 @@ define([
                 playerObject3d = playerEntity.components(THREEComponent).mesh,
                 playerPosition = playerObject3d.position;
 
-            var length = playerPosition.length() * 0.05;
+            var length = playerPosition.length() * 0.02;
 
             var lookTarget = new THREE.Vector3();
             lookTarget.copy(playerPosition);
