@@ -109,19 +109,19 @@ define([
           var effectBloom = new THREE.BloomPass( 1.3 );
           var effectCopy = new THREE.ShaderPass( THREE.CopyShader );
 
-          effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
+          this.effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
 
           var width = window.innerWidth || 2;
           var height = window.innerHeight || 2;
 
-          effectFXAA.uniforms[ 'resolution' ].value.set( 1 / width, 1 / height );
+          this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / width, 1 / height );
 
           effectCopy.renderToScreen = true;
 
           this.composer = new THREE.EffectComposer( this.renderer );
 
           this.composer.addPass( renderModel );
-          this.composer.addPass( effectFXAA );
+          this.composer.addPass( this.effectFXAA );
           this.composer.addPass( effectBloom );
           this.composer.addPass( effectCopy );
         },
@@ -144,9 +144,6 @@ define([
 
             // Render the scene
             this.render();
-
-            for(var i = 0; i < pointLights.lenght; i++)
-              pointLights[i].position.x += 10;
         },
 
         render: function() {
