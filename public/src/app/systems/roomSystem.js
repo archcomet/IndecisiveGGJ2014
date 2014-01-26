@@ -108,6 +108,10 @@ define([
         'despawn Enemy event': function() {
 
             this.enemyCount--;
+        },
+
+        'badCollision event': function(){
+
         }
 
     });

@@ -34,7 +34,7 @@ define([
                     left: leftPos,
                     top: topPos
                 }, {
-                    duration: 4000,
+                    duration: 8000,
                     easing: "easeInOutSine"
                 });
                 this.animateCount = 0;
