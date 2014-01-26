@@ -113,24 +113,6 @@ define([
             this.events = events;
             this.player = entities.withTag('Player')[0];
 
-            this.cubeGeometry = new THREE.CubeGeometry(150, 150, 150);
-            this.sphereGeometry = new THREE.SphereGeometry(100);
-            this.tetrahedronGeometry = new THREE.TetrahedronGeometry(150);
-
-            this.preyMaterial = new THREE.MeshLambertMaterial({
-                ambient: 0x000033,
-                color: 0x0000ff,
-                emissive: 0x000033,
-                shininess: 50
-            });
-
-            this.predatorMaterial = new THREE.MeshLambertMaterial({
-                ambient: 0x330000,
-                color: 0xff0000,
-                emissive: 0x000033,
-                shininess: 50
-            });
-
             for(var i = 0, n = 20; i < n; ++i) {
                 this.spawn({
                     position: {
