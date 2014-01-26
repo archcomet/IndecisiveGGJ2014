@@ -8,7 +8,10 @@
             'three': 'libs/three',
             'gamepad': 'libs/gamepad',
             'systems': 'app/systems',
-            'components': 'app/components'
+            'components': 'app/components',
+            'jquery': 'libs/jquery.min',
+            'jquery.easing': 'libs/jquery.easing'
+
         },
 
         shim: {
@@ -27,9 +30,14 @@
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
-        'systems/gamepadSystem'
+        'systems/gamepadSystem',
+        'systems/promptSystem'
         
+<<<<<<< HEAD
     ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem) {
+=======
+    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, PromptSystem) {
+>>>>>>> d18f96fcd3a94ba897fc96111051248ecdeb231b
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -79,6 +87,7 @@
         game.systems.add(PlayerSystem);
         game.systems.add(EnemyAISystem);
         game.systems.add(GamepadSystem);
+        game.systems.add(PromptSystem);
 
         game.start();
 
