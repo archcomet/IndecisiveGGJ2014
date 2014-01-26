@@ -26,7 +26,7 @@
         'systems/playerSystem',
         'systems/enemySystem',
         'systems/gamepadSystem'
-        
+
     ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemySystem, GamepadSystem) {
 
         var game = cog.createDirector({
