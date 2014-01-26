@@ -24,6 +24,33 @@ define([
         shininess: 100
     });
 
+    var MATERIAL_SQUARE = new THREE.MeshPhongMaterial({
+        // ambient: 0x333333,
+        // color: 0xffffff,
+        emissive: 0xff9600,
+        transparent: true,
+        opacity: 0.8,
+        side: THREE.DoubleSide,
+        shininess: 10
+    });
+
+    var MATERIAL_CIRCLE = new THREE.MeshPhongMaterial({
+        // ambient: 0x333333,
+        // color: 0xffffff,
+        emissive: 0xffc3f4,
+        shininess: 100
+    });
+
+    var MATERIAL_TRIANGLE = new THREE.MeshPhongMaterial({
+        // ambient: 0x333333,
+        // color: 0xffffff,
+        // emissive: 0x20ff18,
+        transparent: true,
+        opacity: 0.6,
+        side: THREE.DoubleSide,
+        shininess: 50
+    });
+
     var particleSystem;
     var particleGeometry;
     var particleMaterial;
@@ -40,8 +67,10 @@ define([
             material: {
                 constructor: MaterialComponent,
                 defaults: {
-                    materialType: MaterialComponent.TYPE_PREY,
-                    preyMaterial: MATERIAL,
+                    materialType: MaterialComponent.TYPE_SQUARE,
+                    squareMaterial: MATERIAL_SQUARE,
+                    triangleMaterial: MATERIAL_TRIANGLE,
+                    circleMaterial: MATERIAL_CIRCLE,
                     needsUpdate: true
                 }
             },
@@ -195,7 +224,8 @@ define([
 
         'playerChangeShape event': function(geometryType) {
             if (this.currentShape !== geometryType) {
-                var shape = this.player.components(ShapeComponent);
+                var shape = this.player.components(ShapeComponent),
+                    material = this.player.components(MaterialComponent);
 
                 shape.geometryType = geometryType;
                 shape.needsUpdate = true;
@@ -203,12 +233,18 @@ define([
                 switch(geometryType) {
                     case ShapeComponent.TYPE_SQUARE:
                         this.events.emit('playerShapeChanged', 'square');
+                        material.materialType = 3;
+                        material.needsUpdate = true;
                         break;
                     case ShapeComponent.TYPE_TRIANGLE:
                         this.events.emit('playerShapeChanged', 'triangle');
+                        material.materialType = 4;
+                        material.needsUpdate = true;
                         break;
                     case ShapeComponent.TYPE_CIRCLE:
                         this.events.emit('playerShapeChanged', 'circle');
+                        material.materialType = 5;
+                        material.needsUpdate = true;
                         break;
                 }
 
