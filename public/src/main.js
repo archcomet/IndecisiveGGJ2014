@@ -23,6 +23,7 @@
 
     require([
         'cog',
+        'jquery',
         'systems/soundSystem',
         'systems/threeSystem',
         'systems/meshSystem',
@@ -32,14 +33,6 @@
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
-<<<<<<< HEAD
-        'systems/meshSystem',
-        'systems/gamepadSystem',
-        'systems/promptSystem'
-        
-    ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem,
-                PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem) {
-=======
         'systems/steeringSystem',
         'systems/questionSystem',
         'systems/backgroundSystem',
@@ -60,7 +53,6 @@
                 BackgroundSystem,
                 RoomSystem
         ) {
->>>>>>> 688256ce25451c2dc298474346bf697a8e288571
 
         var game = cog.createDirector({
             fixedDt: false,
