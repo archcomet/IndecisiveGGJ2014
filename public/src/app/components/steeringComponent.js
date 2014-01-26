@@ -13,10 +13,12 @@ define([
 
             maxSpeed: 10,
             maxAcceleration: 0.5,
-
             slowingDistance: 100,
-
             drag: 0.2,
+
+
+            separation: undefined,
+            neighborhood: undefined,
 
             // things for calculations
 

@@ -27,3 +27,21 @@ canvas {
     left: calc(50% - 150px);
     color: white;
 }
+
+#prompt{
+    color: #ffffff;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 1.5em;
+    width: 500px;
+    height: 300px;
+    font-family: Arcade;
+    animation: pulse 2s ease infinite alternate;
+    position: absolute;
+    opacity: 0.25;
+
+}
+

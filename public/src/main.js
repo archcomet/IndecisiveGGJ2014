@@ -9,7 +9,9 @@
             'gamepad': 'libs/gamepad',
             'systems': 'app/systems',
             'components': 'app/components',
-            'questions': 'app/questions'
+            'questions': 'app/questions',
+            'jquery': 'libs/jquery.min',
+            'jquery.easing': 'libs/jquery.easing'
         },
 
         shim: {
@@ -27,10 +29,12 @@
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
+        'systems/meshSystem',
         'systems/gamepadSystem',
+        'systems/promptSystem'
         'systems/questionSystem',
         'systems/backgroundSystem'
-    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, QuestionSystem, BackgroundSystem) {
+    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem, QuestionSystem, BackgroundSystem) {
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -72,15 +76,25 @@
             ]
         });
 
+        // Low level
         game.systems.add(SoundSystem);
         game.systems.add(ThreeSystem);
-        game.systems.add(SteeringSystem);
+        game.systems.add(MeshSystem);
+
+        // Input
+        game.systems.add(KeyboardSystem);
+        game.systems.add(GamepadSystem);
+        game.systems.add(PromptSystem);
+
+        // Entities
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
-        game.systems.add(GamepadSystem);
         game.systems.add(EnemyAISystem);
         game.systems.add(QuestionSystem);
         game.systems.add(BackgroundSystem);
+
+        // Loccmotion
+        game.systems.add(SteeringSystem);
 
         game.start();
 

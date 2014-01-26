@@ -3,9 +3,35 @@ define([
     'three',
     'components/threeComponent',
     'components/steeringComponent',
-    'components/enemyAIComponent'
+    'components/enemyAIComponent',
+    'components/materialComponent',
+    'components/shapeComponent'
 
-], function(cog, THREE, THREEComponent, SteeringComponent, EnemyAIComponent) {
+], function(cog, THREE, THREEComponent, SteeringComponent, EnemyAIComponent, MaterialComponent, ShapeComponent) {
+
+    var NEIGHBORHOOD = 400,
+        CHASESPEED = 25,
+        FLEESPEED = 11;
+
+    var CUBE_GEO = new THREE.CubeGeometry(150, 150, 150);
+
+    var SPHERE_GEO = new THREE.SphereGeometry(100);
+
+    var TETRAHEDRON_GEO = new THREE.TetrahedronGeometry(150);
+
+    var PREY_MAT  = new THREE.MeshLambertMaterial({
+        ambient: 0x000033,
+        color: 0x0000ff,
+        emissive: 0x000033,
+        shininess: 50
+    });
+
+    var PREDATOR_MAT = new THREE.MeshLambertMaterial({
+        ambient: 0x330000,
+        color: 0xff0000,
+        emissive: 0x000033,
+        shininess: 50
+    });
 
     var EnemySystem = cog.Factory.extend('EnemySystem', {
 
@@ -15,6 +41,22 @@ define([
             object3d: {
                 constructor: THREEComponent
             },
+            material: {
+                constructor: MaterialComponent,
+                defaults: {
+                    preyMaterial: PREY_MAT,
+                    predatorMaterial: PREDATOR_MAT
+                }
+            },
+            shape: {
+                constructor: ShapeComponent,
+                defaults: {
+                    squareGeometry: CUBE_GEO,
+                    triangleGeometry: TETRAHEDRON_GEO,
+                    circleGeometry: SPHERE_GEO
+                }
+            },
+
             steering: {
                 constructor: SteeringComponent,
                 defaults: {
@@ -38,43 +80,30 @@ define([
             geometry: null
         },
 
+
         spawn: function(config) {
             var entity = this._super(config);
 
-            var enemyAI = entity.components(EnemyAIComponent),
+            var enemyThree = entity.components(THREEComponent),
                 enemySteering = entity.components(SteeringComponent),
-                enemyGeometry, enemyMaterial;
+                enemyShape = entity.components(ShapeComponent),
+                enemyMaterial = entity.components(MaterialComponent);
 
             enemySteering.maxSpeed *= cog.rand.arc4rand(1.75, 2.25);
             enemySteering.maxAcceleration *= cog.rand.arc4rand(0.75, 1.25);
 
-            enemyAI.shape = cog.rand.arc4randInt(0, 2);
+            enemyShape.geometryType = cog.rand.arc4randInt(0, 2);
+            enemyShape.needsUpdate = true;
 
-            switch(enemyAI.shape) {
-                case EnemyAIComponent.SHAPE_SQUARE:
-                    enemyGeometry = this.cubeGeometry;
-                    enemyMaterial = this.preyMaterial;
-                    break;
+            enemyThree.spawnPosition = new THREE.Vector3(config.position.x, config.position.y, 0);
 
-                case EnemyAIComponent.SHAPE_CIRCLE:
-                    enemyGeometry = this.sphereGeometry;
-                    enemyMaterial = this.predatorMaterial;
-                    break;
-
-                case EnemyAIComponent.SHAPE_TRIANGLE:
-                    enemyGeometry = this.tetrahedronGeometry;
-                    enemyMaterial = this.predatorMaterial;
-                    break;
+            if (this.player.components(ShapeComponent).geometryType === enemyShape.geometryType) {
+                enemyMaterial.materialType = MaterialComponent.TYPE_PREY;
+                enemyMaterial.needsUpdate = true;
+            } else {
+                enemyMaterial.materialType = MaterialComponent.TYPE_PREDATOR;
+                enemyMaterial.needsUpdate = true;
             }
-
-            var mesh = new THREE.Mesh(enemyGeometry, enemyMaterial);
-
-            if (config.position) {
-                mesh.position.set(config.position.x, config.position.y, 0);
-            }
-
-            entity.components(THREEComponent).mesh = mesh;
-            this.events.emit('addToScene', entity);
 
             return entity;
         },
@@ -83,24 +112,6 @@ define([
 
             this.events = events;
             this.player = entities.withTag('Player')[0];
-
-            this.cubeGeometry = new THREE.CubeGeometry(150, 150, 150);
-            this.sphereGeometry = new THREE.SphereGeometry(100);
-            this.tetrahedronGeometry = new THREE.TetrahedronGeometry(150);
-
-            this.preyMaterial = new THREE.MeshLambertMaterial({
-                ambient: 0x000033,
-                color: 0x0000ff,
-                emissive: 0x000033,
-                shininess: 50
-            });
-
-            this.predatorMaterial = new THREE.MeshLambertMaterial({
-                ambient: 0x330000,
-                color: 0xff0000,
-                emissive: 0x000033,
-                shininess: 50
-            });
 
             for(var i = 0, n = 20; i < n; ++i) {
                 this.spawn({
@@ -121,15 +132,25 @@ define([
 
         updateEnemyState: function(enemyEntity, playerPosition) {
 
-            switch(enemyEntity.components(EnemyAIComponent).state) {
+            var enemyAI = enemyEntity.components(EnemyAIComponent);
 
-                case EnemyAIComponent.AI_FLEE_PLAYER: this.handleFleeFromPlayer(enemyEntity, playerPosition); break;
+            switch(enemyAI.state) {
 
-                case EnemyAIComponent.AI_FLEE_CORNER: this.handleFleeFromCorner(enemyEntity, playerPosition); break;
+                case EnemyAIComponent.AI_FLEE_PLAYER:
+                    this.handleFleeFromPlayer(enemyEntity, playerPosition);
+                    break;
 
-                case EnemyAIComponent.AI_SEEK_PLAYER: this.handleSeekPlayer(enemyEntity, playerPosition); break;
+                case EnemyAIComponent.AI_FLEE_CORNER:
+                    this.handleFleeFromCorner(enemyEntity, playerPosition);
+                    break;
 
-                default: this.handleDefault(enemyEntity); break;
+                case EnemyAIComponent.AI_SEEK_PLAYER:
+                    this.handleSeekPlayer(enemyEntity, playerPosition);
+                    break;
+
+                default:
+                    this.handleDefault(enemyEntity);
+                    break;
             }
         },
 
@@ -140,16 +161,18 @@ define([
                 enemyObject3d = enemyEntity.components(THREEComponent).mesh,
                 enemyPosition = enemyObject3d.position;
 
-            if (enemyPosition.x >= 4000 - enemyAI.wallFleeTrigger ||
-                enemyPosition.x <= -4000 + enemyAI.wallFleeTrigger ||
-                enemyPosition.y >= 2500 - enemyAI.wallFleeTrigger ||
-                enemyPosition.y <= -2500 + enemyAI.wallFleeTrigger )
+            if (enemyPosition.x >=  3500 ||
+                enemyPosition.x <= -3500 ||
+                enemyPosition.y >=  2000 ||
+                enemyPosition.y <= -2000 )
             {
 
                 var x = cog.rand.arc4rand(-2000, 2000),
                     y = cog.rand.arc4rand(-1000, 1000);
 
                 enemySteering.behavior = 'seek';
+                enemySteering.neighborhood = NEIGHBORHOOD;
+                enemySteering.maxSpeed = FLEESPEED;
                 enemySteering.target.set(x, y, 0);
                 enemyAI.state = EnemyAIComponent.AI_FLEE_CORNER;
 
@@ -157,6 +180,8 @@ define([
             }
 
             enemySteering.behavior = 'flee';
+            enemySteering.neighborhood = undefined;
+            enemySteering.maxSpeed = FLEESPEED;
             enemySteering.target.copy(playerPosition);
         },
 
@@ -186,19 +211,55 @@ define([
         },
 
         handleSeekPlayer: function(enemyEntity, playerPosition) {
-
             var enemySteering = enemyEntity.components(SteeringComponent);
             enemySteering.behavior = 'seek';
+            enemySteering.maxSpeed = CHASESPEED;
+            enemySteering.neighborhood = NEIGHBORHOOD;
             enemySteering.target.copy(playerPosition);
         },
 
         handleDefault: function(enemyEntity) {
 
-            if (enemyEntity.components(EnemyAIComponent).shape === EnemyAIComponent.SHAPE_SQUARE) {
-                enemyEntity.components(EnemyAIComponent).state = EnemyAIComponent.AI_FLEE_PLAYER;
-            } else {
-                enemyEntity.components(EnemyAIComponent).state = EnemyAIComponent.AI_SEEK_PLAYER;
+            var enemyAI = enemyEntity.components(EnemyAIComponent),
+                enemyShape = enemyEntity.components(ShapeComponent),
+                playerShape = this.player.components(ShapeComponent);
+
+            if (enemyShape.geometryType === playerShape.geometryType) {
+                enemyAI.state = EnemyAIComponent.AI_FLEE_PLAYER;
             }
+            else if (enemyAI.state === 0) {
+                enemyAI.state = EnemyAIComponent.AI_SEEK_PLAYER;
+            }
+
+        },
+
+        'playerChangeShape event': function() {
+            var self = this,
+                geometryType = this.player.components(ShapeComponent).geometryType;
+
+            this._entities.forEach(function(entity) {
+
+                var playerShape = self.player.components(ShapeComponent),
+                    enemyShape = entity.components(ShapeComponent),
+                    enemyMaterial = entity.components(MaterialComponent),
+                    enemyAI = entity.components(EnemyAIComponent);
+
+                if (enemyShape.geometryType === geometryType && enemyAI.state === EnemyAIComponent.AI_SEEK_PLAYER) {
+                    enemyAI.state = EnemyAIComponent.AI_FLEE_PLAYER;
+                }
+
+                if (enemyShape.geometryType !== geometryType && enemyAI.state !== EnemyAIComponent.AI_SEEK_PLAYER) {
+                    enemyAI.state = EnemyAIComponent.AI_SEEK_PLAYER;
+                }
+
+                var newType = (playerShape.geometryType === enemyShape.geometryType) ?
+                    MaterialComponent.TYPE_PREY : MaterialComponent.TYPE_PREDATOR;
+
+                if (newType !== enemyMaterial.materialType) {
+                    enemyMaterial.materialType = newType;
+                    enemyMaterial.needsUpdate = true;
+                }
+            });
         }
 
     });
