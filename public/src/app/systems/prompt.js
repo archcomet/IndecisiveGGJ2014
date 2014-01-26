@@ -1,5 +1,6 @@
 define([
-    'jquery'
+    'jquery',
+    'jquery.easing'
 
 ], function ($) {
 
@@ -7,7 +8,7 @@ define([
 
         defaults: {
 
-           animateCount: 0
+            animateCount: 0
         },
 
         configure: function () {
@@ -24,11 +25,10 @@ define([
         animatePrompt: function () {
 
 
-            if (this.animateCount === 60) {
+            if (this.animateCount) { //A count can be put here if we need to throttle how often this gets called.
                 var $prompt = $("#prompt"),
-                    theContainer = $("#container"),
-                    maxLeft = theContainer.width()/5,
-                    maxTop = theContainer.height()/5,
+                    maxLeft = window.innerWidth / 2,
+                    maxTop = window.innerHeight / 2,
                     leftPos = Math.floor(Math.random() * maxLeft),
                     topPos = Math.floor(Math.random() * maxTop);
 
@@ -36,7 +36,10 @@ define([
                 $prompt.animate({
                     left: leftPos,
                     top: topPos
-                }, 1000);
+                }, {
+                    duration: 3000,
+                    easing: "easeInOutSine"
+                });
                 this.animateCount = 0;
             }
             else {
