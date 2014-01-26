@@ -29,7 +29,7 @@ define([
             if (this.animateCount) { //A count can be put here if we need to throttle how often this gets called.
                 var $prompt = $("#prompt"),
                     defLeft = (window.innerWidth / 2 - 250),
-                    defTop = (window.innerHeight / 2 - 150),
+                    defTop = (window.innerHeight / 4 - 150),
                     maxLeft = 200,
                     maxTop = 100,
                     leftPos = defLeft + (Math.random() - 0.5) * maxLeft,
@@ -49,10 +49,28 @@ define([
             }
         },
 
-        'changeText event': function(text) {
+        'changeQuestion event': function(text) {
             document.getElementById("prompt").innerText = text;
-        }
+        },
 
+        'changeAnswer event': function(direction, text) {
+            var answer = null;
+            switch(direction) {
+                case 'up':
+                    answer = document.getElementById('answer_up');
+                    break;
+                case 'down':
+                    answer = document.getElementById('answer_down');
+                    break;
+                case 'left':
+                    answer = document.getElementById('answer_left');
+                    break;
+                case 'right':
+                    answer = document.getElementById('answer_right');
+                    break;
+            }
+            answer.innerText = text;
+        }
     });
 
     cog.PromptSystem = PromptSystem;
