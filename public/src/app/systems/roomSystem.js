@@ -6,18 +6,18 @@ define([
 
 ], function(cog, THREE, THREEComponent, ShapeComponent) {
 
-    var DOORS= {
+    var DOORS = {
 
             NORTH: {
                 xMin: -200,
                 xMax: 200,
-                yMin: 2500,
-                yMax: 2900
+                yMin: 2200,
+                yMax: 2500
             },
 
             EAST: {
-                xMin: 4000,
-                xMax: 4400,
+                xMin: 3700,
+                xMax: 4000,
                 yMin: -200,
                 yMax: 200
             },
@@ -25,13 +25,13 @@ define([
             SOUTH: {
                 xMin: -200,
                 xMax: 200,
-                yMin: -2900,
-                yMax: -2500
+                yMin: -2500,
+                yMax: -2200
             },
 
             WEST: {
-                xMin: -4400,
-                xMax: -4000,
+                xMin: -4000,
+                xMax: -3700,
                 yMin: -200,
                 yMax: 200
             }
@@ -40,8 +40,20 @@ define([
 
     var RoomSystem = cog.System.extend('RoomSystem', {
 
+        defaults: {
+            enemyCount: 0,
+            roomActive: false
+        },
+
         configure: function(entities, events) {
             this.events = events;
+        },
+
+        update: function(entities, events, dt) {
+           if (this.enemyCount === 0 && this.roomActive) {
+               events.emit('roomClear');
+               this.roomActive = false;
+           }
         },
 
         exitRoom: function() {
@@ -50,32 +62,50 @@ define([
 
         enterRoom: function(options) {
 
-            var door = options.door || 'NORTH',
+            var door = 'NORTH',
                 doorsLeft = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
 
-            var index = doorsLeft.indexOf(door);
-            doorsLeft.splice(index, 1);
+            if (options && options.door) {
+                door = options.door;
+            }
 
-//
-//            var i = 0,  n = options.triangleCount || 0;
-//
-//            for(; i < n; ++i) {
-//                this.events.emit('spawn Enemy', {
-//                    geometryType: ShapeComponent.TYPE_TRIANGLE,
-//                    position: {
-//                        x: cog.rand.arc4rand(-4000, 4000),
-//                        y: cog.rand.arc4rand(-2500, 2500)
-//                    }
-//                });
-//            }
+            doorsLeft.splice( doorsLeft.indexOf(door), 1);
+
+            if (options && options.enemyCount > 0) {
+
+                var i = 0,
+                    n = options.enemyCount;
+
+                for(; i < n; ++i) {
+                    this.events.emit('spawn Enemy', {
+                        position: this.getRandomDoorPosition(doorsLeft)
+                    });
+                }
+
+                this.roomActive = true;
+                this.enemyCount = n;
+            }
+        },
+
+        getRandomDoorPosition: function(doorsLeft) {
+            var door = doorsLeft[cog.rand.arc4randInt(0, doorsLeft.length-1)],
+                doorBox = DOORS[door];
+
+            return {
+                x: cog.rand.arc4rand(doorBox.xMin, doorBox.xMax),
+                y: cog.rand.arc4rand(doorBox.yMin, doorBox.yMax)
+            }
         },
 
 
         'changeRoom event': function(options) {
             this.exitRoom();
             this.enterRoom(options);
-        }
+        },
 
+        'despawn Enemy event': function() {
+            this.enemyCount--;
+        }
 
     });
 

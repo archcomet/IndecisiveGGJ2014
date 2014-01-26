@@ -120,15 +120,6 @@ define([
 
             this.events = events;
             this.player = entities.withTag('Player')[0];
-
-            for(var i = 0, n = 20; i < n; ++i) {
-                this.spawn({
-                    position: {
-                        x: cog.rand.arc4rand(-4000, 4000),
-                        y: cog.rand.arc4rand(-2500, 2500)
-                    }
-                })
-            }
         },
 
         update:function() {
