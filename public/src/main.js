@@ -57,7 +57,8 @@
 
         var game = cog.createDirector({
             fixedDt: false,
-            soundEnabled: true,
+            soundEnabled: true
+            ,
             assetDirectory: '../public/src/assets/',
             sounds: [
                 {
