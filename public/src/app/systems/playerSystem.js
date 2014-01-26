@@ -18,7 +18,7 @@ define([
 
     var MATERIAL = new THREE.MeshPhongMaterial({
         ambient: 0x333333,
-        color: 0x00ff00,
+        color: 0xffffff,
         emissive: 0xaaaaaa,
         shininess: 100
     });
