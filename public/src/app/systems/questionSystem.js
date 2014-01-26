@@ -129,6 +129,10 @@ define([
             events.emit("changeText", this.replace(Tree.questions[this.pointer].question));
 
             events.emit("addMood");
+        },
+
+        'roomClear event': function() {
+            console.log('cleared the room');
         }
     });
 
