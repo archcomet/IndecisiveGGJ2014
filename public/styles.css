@@ -32,7 +32,6 @@ canvas {
     width: 500px;
     height: 300px;
     font-family: Arcade;
-    animation: pulse 2s ease infinite alternate;
     position: absolute;
     opacity: 0.25;
 
