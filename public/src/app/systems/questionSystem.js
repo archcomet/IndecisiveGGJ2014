@@ -108,10 +108,10 @@ define([
                     doorStr = "SOUTH";
                     break;
                 case "left":
-                    doorStr = "WEST";
+                    doorStr = "EAST";
                     break;
                 case "right":
-                    doorStr = "EAST";
+                    doorStr = "WEST";
                     break;
                 case "down":
                     doorStr = "NORTH";

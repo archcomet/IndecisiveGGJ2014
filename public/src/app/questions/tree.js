@@ -149,11 +149,7 @@ define(
                 "spawn": 10
             },
             "Highschool3": {
-<<<<<<< HEAD
-                "question": "A nerd.",
-=======
                 "question": "Nerd.",
->>>>>>> 2443d657c163beeb4c54eb71fe23ec14013f4d39
                 "spawn": 0,
                 "next": "Highschool4"
             },
