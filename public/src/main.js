@@ -31,10 +31,11 @@
         'systems/enemyAISystem',
         'systems/meshSystem',
         'systems/gamepadSystem',
-        'systems/promptSystem'
+        'systems/keyboardSystem',
+        'systems/promptSystem',
         'systems/questionSystem',
         'systems/backgroundSystem'
-    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem, QuestionSystem, BackgroundSystem) {
+    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, KeyboardSystem, PromptSystem, QuestionSystem, BackgroundSystem) {
 
         var game = cog.createDirector({
             fixedDt: false,

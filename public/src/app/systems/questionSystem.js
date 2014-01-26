@@ -56,7 +56,8 @@ define([
                 }
             }.bind(this);
 
-            t.innerText = this.replace(Tree.questions.Basic1.question);
+            //t.innerText = this.replace(Tree.questions.Basic1.question);
+            events.emit("changeText", this.replace(Tree.questions.Basic1.question));
         },
 
         update: function(entities, events) {
@@ -122,9 +123,10 @@ define([
 
             this.pointer = next;
 
-            var t = document.getElementById("questions");
+            //var t = document.getElementById("questions");
+            //t.innerText = this.replace(Tree.questions[this.pointer].question);
 
-            t.innerText = this.replace(Tree.questions[this.pointer].question);
+            events.emit("changeText", this.replace(Tree.questions[this.pointer].question));
 
             events.emit("addMood");
         }
