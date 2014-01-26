@@ -14,9 +14,9 @@ define([
             replace: null,
             pointer: "Basic1",
             setValue: null,
-            friendName: "Sam",
+            friendName: "Pat",
             currentDate: 1988,
-            otherName: "Robert"
+            otherName: "Sam"
         },
 
         configure: function(entities, events) {
@@ -108,10 +108,10 @@ define([
                     doorStr = "SOUTH";
                     break;
                 case "left":
-                    doorStr = "WEST";
+                    doorStr = "EAST";
                     break;
                 case "right":
-                    doorStr = "EAST";
+                    doorStr = "WEST";
                     break;
                 case "down":
                     doorStr = "NORTH";
