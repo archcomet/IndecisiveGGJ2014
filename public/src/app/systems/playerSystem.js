@@ -23,6 +23,11 @@ define([
         shininess: 100
     });
 
+    var particleSystem;
+    var particleGeometry;
+    var particleMaterial;
+    var particlesMoving = false;
+
     var PlayerSystem = cog.Factory.extend('PlayerSystem', {
 
         entityTag: 'Player',
@@ -79,6 +84,8 @@ define([
 
             this.events = events;
             this.player = entity;
+
+            this.particleSystem = this.summonParticles(events);
         },
 
         update: function(entities, events) {
@@ -129,14 +136,23 @@ define([
                 playerGeometry = this.player.components(ShapeComponent).geometryType;
 
             if (enemyGeometry === playerGeometry) {
-                this.events.emit('playSound', 'shape_appear');
                 this.events.emit('goodCollision', enemyPosition);
-
+                // if(this.position){
+                  this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
+                                      this.player.components(THREEComponent).mesh.position.y,
+                                      this.particleGeometry, this.particleMaterial,
+                                      0.5, 0.5, 1.0);
+                // }
             } else {
-
-                this.events.emit('playSound', 'shape_disappear');
                 this.events.emit('badCollision', enemyPosition);
+                // if(this.position) {
+                  this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
+                                      this.player.components(THREEComponent).mesh.position.y,
+                                      this.particleGeometry, this.particleMaterial,
+                                      1.0, 0.5, 0.5);
+                // }
             }
+
 
             this.events.emit('despawn Enemy', enemy);
         },
@@ -160,6 +176,7 @@ define([
                     playerPosition.y = 2490;
                 }
             }
+            this.updateParticles(this.particleMaterial, this.particleGeometry)
         },
 
         'playerSeekDirection event': function(dx, dy) {
@@ -178,24 +195,75 @@ define([
 
                 switch(geometryType) {
                     case ShapeComponent.TYPE_SQUARE:
-                        this.events.emit('unmuteSound', 'square');
-                        this.events.emit('muteSound', 'triangle');
-                        this.events.emit('muteSound', 'mystery');
+                        this.events.emit('playerShapeChanged', 'square');
                         break;
                     case ShapeComponent.TYPE_TRIANGLE:
-                        this.events.emit('unmuteSound', 'triangle');
-                        this.events.emit('muteSound', 'square');
-                        this.events.emit('muteSound', 'mystery');
+                        this.events.emit('playerShapeChanged', 'triangle');
                         break;
                     case ShapeComponent.TYPE_CIRCLE:
-                        this.events.emit('unmuteSound', 'mystery');
-                        this.events.emit('muteSound', 'square');
-                        this.events.emit('muteSound', 'triangle');
+                        this.events.emit('playerShapeChanged', 'circle');
                         break;
                 }
 
                 this.currentShape = geometryType;
             }
+        },
+
+        // particle effects
+        summonParticles: function(events) {
+          this.particleGeometry = new THREE.Geometry();
+          sprite = THREE.ImageUtils.loadTexture( "textures/sprites/disc.png" );
+
+          for ( i = 0; i < 100; i ++ ) {
+
+            var vertex = new THREE.Vector3();
+            vertex.x = 12 * Math.random() - 6;
+            vertex.y = 12 * Math.random() - 6;
+            vertex.z = 12 * Math.random() - 9;
+
+            this.particleGeometry.vertices.push( vertex );
+
+          }
+
+          for(var i = 0; i < this.particleGeometry.vertices.length; i ++)
+          {
+            this.particleGeometry.vertices[i].x +=  12000;
+            this.particleGeometry.vertices[i].y +=  12000;
+          }
+
+          this.particleMaterial = new THREE.ParticleSystemMaterial( { size: 15, sizeAttenuation: false, map: sprite, transparent: true } );
+          this.particleMaterial.color.setHSL( 1.0, 0.3, 0.7 );
+
+          particles = new THREE.ParticleSystem( this.particleGeometry, this.particleMaterial );
+          particles.sortParticles = true;
+
+          events.emit('addToScene', particles);
+        //
+        },
+
+        updateParticles: function(particleMaterial, particleGeometry){
+          // h = ( 360 * ( 1.0 + Date.now() ) % 360 ) / 360;
+          // particleMaterial.color.setHSL( h, 0.5, 0.5 );
+          if(this.particlesMoving)
+          {
+            for(var i = 0; i < particleGeometry.vertices.length; i ++)
+            {
+              particleGeometry.vertices[i].x += Math.sin(360/(i % 360)) * 100;// - Math.max(0,(1 * Math.abs(particleGeometry.vertices[i].x)));
+              particleGeometry.vertices[i].y += Math.cos(360/(i % 360)) * 100;// - Math.max(0,(1 * Math.abs(particleGeometry.vertices[i].x))) ;
+            }
+            particleGeometry.verticesNeedUpdate = true;
+          }
+        },
+
+        resetParticles: function(x, y, particleGeometry, particleMaterial, r, g, b){
+          for(var i = 0; i < particleGeometry.vertices.length; i ++)
+          {
+            particleGeometry.vertices[i].x = x;// + Math.random() * 100 - 50;
+            particleGeometry.vertices[i].y = y;// + Math.random() * 100 - 50;
+          }
+          particleGeometry.verticesNeedUpdate = true;
+          particleMaterial.color.setRGB(r,g,b);
+          this.particlesMoving = true;
         }
     });
 

@@ -71,6 +71,8 @@ define([
 
         },
 
+
+
         summonLines: function(entities, events) {
           var lines = [];
           var i, line, vertex1, vertex2, material, p,
