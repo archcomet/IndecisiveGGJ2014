@@ -1,3 +1,5 @@
+@font-face { font-family: Arcade; src: url('src/fonts/emulogic.ttf'); }
+
 body, html {
     margin: 0;
     padding: 0;
