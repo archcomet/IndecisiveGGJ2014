@@ -7,7 +7,7 @@ define([
 
 ], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent) {
 
-    var SandboxSystem = cog.Factory.extend('SandboxSystem', {
+    var PlayerSystem = cog.Factory.extend('SandboxSystem', {
 
         entityTag: 'Player',
 
@@ -18,7 +18,8 @@ define([
             steering: {
                 constructor: SteeringComponent,
                 defaults: {
-                    maxSpeed: 20
+                    maxSpeed: 20,
+                    maxAcceleration: 4
                 }
             },
             player: {
@@ -53,23 +54,23 @@ define([
                 steeringComponent = entity.components(SteeringComponent);
 
             steeringComponent.behavior = 'seek';
-            steeringComponent.target.x = 4000;
-            steeringComponent.target.y = 4000;
+            steeringComponent.target.x = 0;
+            steeringComponent.target.y = 0;
 
             this.player = entity;
 
             events.emit('addToScene', entity);
         },
 
-        'playerSeekPoint event': function(x, y) {
-            this.player.components(SteeringComponent).target.x = x;
-            this.player.components(SteeringComponent).target.y = y;
+        'playerSeekDirection event': function(dx, dy) {
+            this.player.components(SteeringComponent).target.x = dx * 5000;
+            this.player.components(SteeringComponent).target.y = dy * 5000;
         }
 
     });
 
-    cog.SandboxSystem = SandboxSystem;
+    cog.SandboxSystem = PlayerSystem;
 
-    return SandboxSystem;
+    return PlayerSystem;
 
 });
