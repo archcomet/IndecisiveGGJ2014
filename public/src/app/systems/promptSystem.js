@@ -12,11 +12,6 @@ define([
             animateCount: 0
         },
 
-        configure: function () {
-
-            this.animatePrompt();
-        },
-
         update: function () {
 
             this.animatePrompt()
@@ -26,10 +21,10 @@ define([
         animatePrompt: function () {
 
 
-            if (this.animateCount) { //A count can be put here if we need to throttle how often this gets called.
+            if (this.animateCount === 100) { //A count can be put here if we need to throttle how often this gets called.
                 var $prompt = $("#prompt"),
                     defLeft = (window.innerWidth / 2 - 250),
-                    defTop = (window.innerHeight / 4 - 150),
+                    defTop = (window.innerHeight / 2 + 150),
                     maxLeft = 200,
                     maxTop = 100,
                     leftPos = defLeft + (Math.random() - 0.5) * maxLeft,
