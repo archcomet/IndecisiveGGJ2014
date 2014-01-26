@@ -42,7 +42,8 @@ define([
 
         defaults: {
             enemyCount: 0,
-            roomActive: false
+            roomActive: false,
+            options: null
         },
 
         configure: function(entities, events) {
@@ -101,9 +102,11 @@ define([
         'changeRoom event': function(options) {
             this.exitRoom();
             this.enterRoom(options);
+            this.options = options;
         },
 
         'despawn Enemy event': function() {
+
             this.enemyCount--;
         }
 

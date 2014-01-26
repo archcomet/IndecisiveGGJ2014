@@ -52,7 +52,7 @@ define([
             steering: {
                 constructor: SteeringComponent,
                 defaults: {
-                    maxSpeed: 20,
+                    maxSpeed: 60,
                     maxAcceleration: 3,
                     avoidCorners: false
                 }
