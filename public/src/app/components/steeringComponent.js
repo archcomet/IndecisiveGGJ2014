@@ -12,7 +12,7 @@ define([
             behavior: undefined, // 'seek', 'flee', 'arrival'
 
             maxSpeed: 10,
-            maxAcceleration: 0.5,
+            maxAcceleration: 1,
             slowingDistance: 100,
             drag: 0.2,
 
