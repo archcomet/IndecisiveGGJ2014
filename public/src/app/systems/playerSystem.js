@@ -96,9 +96,18 @@ define([
 
 
         'playerSeekDirection event': function(dx, dy) {
-            var pos = this.player.components(THREEComponent).mesh.position;
-            this.player.components(SteeringComponent).target.x = pos.x + dx * 50;
-            this.player.components(SteeringComponent).target.y = pos.y + dy * 50;
+            var pos = this.player.components(THREEComponent).mesh.position,
+                steering = this.player.components(SteeringComponent);
+
+            steering.behavior = 'seek';
+            steering.target.x = pos.x + dx * 50;
+            steering.target.y = pos.y + dy * 50;
+        },
+
+        'playerStop event': function() {
+
+            var steering = this.player.components(SteeringComponent);
+            steering.behavior = undefined;
         }
 
     });
