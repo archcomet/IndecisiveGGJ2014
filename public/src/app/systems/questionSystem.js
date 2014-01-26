@@ -5,13 +5,18 @@ define([
 
     var QuestionSystem = cog.System.extend({
         defaults: {
-            firstName: "Pat",
+            firstName: "Claire",
             birthDate: 1988,
             gender: "girl",
+            otherGender: "guy",
             pronoun: "she",
+            otherPronoun: "she",
             replace: null,
             pointer: "Basic1",
-            setValue: null
+            setValue: null,
+            friendName: "Pat",
+            currentDate: 1988,
+            otherName: "Robert"
         },
 
         configure: function(entities, events) {
@@ -19,8 +24,12 @@ define([
 
             this.replace = function(text) {
                 text = text.split("{name}").join(this.firstName);
-                text = text.split("{year}").join("" + this.birthDate);
+                text = text.split("{year}").join("" + this.currentDate);
                 text = text.split("{pronoun}").join(this.pronoun);
+                text = text.split("{friendName}").join(this.friendName);
+                text = text.split("{otherGender}").join(this.otherGender);
+                text = text.split("{otherPronoun}").join(this.otherPronoun);
+                text = text.split("{otherName}").join(this.otherName);
                 return text.charAt(0).toUpperCase() + text.slice(1);;
             }.bind(this);
             this.setValue = function(value) {
@@ -34,6 +43,16 @@ define([
                             this.gender = "guy";
                             this.pronoun = "he";
                         }
+                        break;
+                    case "attraction":
+                        if(values[1] === "girl") {
+                            this.otherGender = "girl";
+                            this.otherPronoun = "she";
+                        } else {
+                            this.otherGender = "guy";
+                            this.otherPronoun = "he";
+                        }
+                        break;
                 }
             }.bind(this);
 
@@ -63,6 +82,10 @@ define([
 
             if(!next) {
                 next = Tree.questions[this.pointer].next;
+            }
+
+            if(Tree.questions[next].year) {
+                this.currentDate = this.birthDate + Tree.questions[next].year;
             }
 
             this.pointer = next;
