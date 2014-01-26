@@ -23,19 +23,36 @@
 
     require([
         'cog',
+        'jquery',
         'systems/soundSystem',
         'systems/threeSystem',
-        'systems/steeringSystem',
+        'systems/meshSystem',
+        'systems/keyboardSystem',
+        'systems/gamepadSystem',
+        'systems/promptSystem',
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
-        'systems/meshSystem',
-        'systems/gamepadSystem',
-        'systems/keyboardSystem',
-        'systems/promptSystem',
+        'systems/steeringSystem',
         'systems/questionSystem',
-        'systems/backgroundSystem'
-    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, KeyboardSystem, PromptSystem, QuestionSystem, BackgroundSystem) {
+        'systems/backgroundSystem',
+        'systems/roomSystem'
+
+    ], function(cog, $,
+                SoundSystem,
+                ThreeSystem,
+                MeshSystem,
+                KeyboardSystem,
+                GamepadSystem,
+                PromptSystem,
+                SandboxSystem,
+                PlayerSystem,
+                EnemyAISystem,
+                SteeringSystem,
+                QuestionSystem,
+                BackgroundSystem,
+                RoomSystem
+        ) {
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -51,36 +68,57 @@
                     fileName: 'sfx/shape-disappear.mp3'
                 },
                 {
+                    name: 'negative_hit',
+                    fileName: 'sfx/NegativeHit_01.mp3'
+                },
+                {
+                    name: 'positive_hit',
+                    fileName: 'sfx/PositiveHit_01.mp3'
+                },
+                {
+                    name: 'circle_transformation',
+                    fileName: 'sfx/CircleTransformation_01.mp3'
+                },
+                {
+                    name: 'square_transform',
+                    fileName: 'sfx/SquareTransformation_01.mp3'
+                },
+                {
+                    name: 'triangle_transform',
+                    fileName: 'sfx/TriangleTransformation_01.mp3'
+                },
+                {
+                    name: 'mystery',
+                    fileName: 'music/mystery.mp3',
+                    loop: true
+                },
+                {
                     name: 'square',
                     fileName: 'music/square.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 },
                 {
                     name: 'triangle',
                     fileName: 'music/triangle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 },
                 {
                     name: 'circle',
                     fileName: 'music/circle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 }
             ]
         });
 
         // Low level
         game.systems.add(SoundSystem);
+        game.systems.add(KeyboardSystem);
         game.systems.add(ThreeSystem);
         game.systems.add(MeshSystem);
+
+        game.events.emit('playSound', 'mystery');
+        game.events.emit('playSound', 'triangle', 0);
+        game.events.emit('playSound', 'square', 0);
 
         // Input
         game.systems.add(KeyboardSystem);
@@ -96,6 +134,7 @@
 
         // Loccmotion
         game.systems.add(SteeringSystem);
+        game.systems.add(RoomSystem);
 
         game.start();
 
