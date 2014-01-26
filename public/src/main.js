@@ -9,9 +9,9 @@
             'gamepad': 'libs/gamepad',
             'systems': 'app/systems',
             'components': 'app/components',
+            'questions': 'app/questions',
             'jquery': 'libs/jquery.min',
             'jquery.easing': 'libs/jquery.easing'
-
         },
 
         shim: {
@@ -34,6 +34,8 @@
         'systems/playerSystem',
         'systems/enemyAISystem',
         'systems/steeringSystem',
+        'systems/questionSystem',
+        'systems/backgroundSystem',
         'systems/roomSystem'
 
     ], function(cog, $,
@@ -47,6 +49,8 @@
                 PlayerSystem,
                 EnemyAISystem,
                 SteeringSystem,
+                QuestionSystem,
+                BackgroundSystem,
                 RoomSystem
         ) {
 
@@ -124,8 +128,10 @@
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
         game.systems.add(EnemyAISystem);
+        game.systems.add(QuestionSystem);
+        game.systems.add(BackgroundSystem);
 
-        // Locamotion
+        // Loccmotion
         game.systems.add(SteeringSystem);
         game.systems.add(RoomSystem);
 
