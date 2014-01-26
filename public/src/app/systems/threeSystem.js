@@ -57,9 +57,11 @@ define([
         update: function(entities, events, dt) {
             this.renderer.render(this.scene, this.camera);
 
-            var playerEntity = entities.withTag('Player')[0],
-                playerObject3d = playerEntity.components(THREEComponent).mesh,
-                playerPosition = playerObject3d.position;
+            var playerEntity, playerThree, playerPosition;
+
+            playerEntity = entities.withTag('Player')[0];
+            playerThree = playerEntity.components(THREEComponent);
+            playerPosition = (playerThree.mesh) ? playerThree.mesh.position : new THREE.Vector3();
 
             var length = playerPosition.length() * 0.02;
 

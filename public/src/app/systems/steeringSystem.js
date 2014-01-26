@@ -93,7 +93,6 @@ define([
                 i = 0,
                 n = entityArray.length,
                 offset = new THREE.Vector3(),
-                offsetLength,
                 matches = [];
 
             for (; i < n; ++i) {
@@ -114,21 +113,13 @@ define([
 
             if (matches.length) {
 
-                console.log(desiredVelocity);
                 for(i = 0, n = matches.length; i < n; ++i) {
 
                     offset.copy(object3d.position);
                     offset.sub(matches[i]);
-                    offsetLength = offset.length();
-
-                    offset.normalize();
-                    offset.multiplyScalar(steering.maxSpeed);
-                    offset.multiplyScalar(1/(offsetLength*offsetLength));
 
                     desiredVelocity.add(offset);
                 }
-
-                console.log(desiredVelocity);
             }
         },
 

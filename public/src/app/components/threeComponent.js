@@ -6,7 +6,12 @@ define([
         eventTarget: 'THREEComponent'
     }, {
         defaults: {
-            mesh: null
+            mesh: null,
+            spawnPosition: {
+                x: 0,
+                y: 0,
+                z: 0
+            }
         }
     });
 

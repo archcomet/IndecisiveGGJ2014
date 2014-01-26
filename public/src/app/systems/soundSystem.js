@@ -137,7 +137,7 @@ define([
         'stopSound event': function(name) {
 
             var sound = this.sounds[name];
-            if (sound) {
+            if (sound && sound.sources) {
                 var source = null;
                 for (var i =0; i < sound.sources.length; i++) {
                     source = sound.sources[i];

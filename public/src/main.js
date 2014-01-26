@@ -23,6 +23,7 @@
 
     require([
         'cog',
+        'jquery',
         'systems/soundSystem',
         'systems/keyboardSystem',
         'systems/threeSystem',
@@ -30,14 +31,12 @@
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
+        'systems/meshSystem',
         'systems/gamepadSystem',
         'systems/promptSystem'
-        
-<<<<<<< HEAD
-    ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem) {
-=======
-    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, PromptSystem) {
->>>>>>> d18f96fcd3a94ba897fc96111051248ecdeb231b
+
+    ], function(cog, $, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem) {
+
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -54,7 +53,7 @@
                 },
                 {
                     name: 'square',
-                    fileName: 'music/square.mp3',
+                    fileName: 'music/mystery.mp3',
                     loop: {
                         start: 0,
                         stop: 13.10
@@ -79,15 +78,23 @@
             ]
         });
 
+        // Low level
         game.systems.add(SoundSystem);
-        game.systems.add(KeyboardSystem);
         game.systems.add(ThreeSystem);
-        game.systems.add(SteeringSystem);
+        game.systems.add(MeshSystem);
+
+        // Input
+        game.systems.add(KeyboardSystem);
+        game.systems.add(GamepadSystem);
+        game.systems.add(PromptSystem);
+
+        // Entities
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
         game.systems.add(EnemyAISystem);
-        game.systems.add(GamepadSystem);
-        game.systems.add(PromptSystem);
+
+        // Locamotion
+        game.systems.add(SteeringSystem);
 
         game.start();
 

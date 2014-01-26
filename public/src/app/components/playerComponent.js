@@ -6,7 +6,7 @@ define([
     var PlayerComponent = cog.Component.extend('PlayerComponent', {
 
         defaults: {
-            length: 200
+
         }
 
     });
