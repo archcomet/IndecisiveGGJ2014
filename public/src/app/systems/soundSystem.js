@@ -10,7 +10,7 @@ define([
         webAudioSupported : false,
         soundEnabled : false,
         _audioContext: null,
-
+        playQueue: [],
 
         configure: function(entities, events, config) {
 
@@ -36,7 +36,11 @@ define([
 
         },
 
-        _loadSounds : function (sounds) {
+        update: function () {
+            this._processPlayQueue();
+        },
+
+        _loadSounds: function (sounds) {
 
             if (!this.webAudioSupported) {
                 return;
@@ -94,17 +98,39 @@ define([
             console.log("SoundSystem: error downloading sound. error=" + e);
         },
 
-        'playSound event': function(name) {
+        _processPlayQueue: function () {
+
+            if (this.playQueue.length == 0) return;
+
+            var soundName = this.playQueue[0];
+            if (this.sounds[soundName]) {
+                this.playQueue.shift();
+                this._playSound(soundName, true);
+            }
+
+        },
+
+        _playSound: function (name, noQueue) {
 
             var sound = this.sounds[name];
             if (sound) {
-
                 var source = this._createSoundSource (sound);
                 sound.sources = sound.sources || [];
                 sound.sources.push(source);
                 source.start(0);
-
+            } else {
+                // sound wasn't found. queue the play request as the file may
+                // still be downloading.
+                if (!noQueue) {
+                    this.playQueue.push(name);
+                }
             }
+
+        },
+
+        'playSound event': function(name) {
+
+            this._playSound(name);
 
         },
 

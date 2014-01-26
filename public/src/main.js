@@ -20,20 +20,20 @@
 
     require([
         'cog',
+        'systems/soundSystem',
         'systems/threeSystem',
         'systems/steeringSystem',
         'systems/sandbox',
         'systems/playerSystem',
-        'systems/soundSystem'
         'systems/enemyAISystem',
         'systems/gamepadSystem'
         
-    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, SoundSystem) {
+    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem) {
 
         var game = cog.createDirector({
             fixedDt: false,
             soundEnabled: true,
-            assetDirectory: "../public/src/assets/",
+            assetDirectory: '../public/src/assets/',
             sounds: [
                 {
                     name: 'shape_appear',
@@ -70,6 +70,7 @@
             ]
         });
 
+        game.systems.add(SoundSystem);
         game.systems.add(ThreeSystem);
         game.systems.add(SteeringSystem);
         game.systems.add(SandboxSystem);
