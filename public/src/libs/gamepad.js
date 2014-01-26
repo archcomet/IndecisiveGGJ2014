@@ -32,6 +32,7 @@
 	/**
 	 * The null platform, which doesn't support anything
 	 */
+
 	var nullPlatform = {
 		getType: function() {
 			return 'null';
@@ -222,6 +223,7 @@
 	 * @constructor
 	 * @module Gamepad
 	 */
+
 	var FirefoxPlatform = function(listener) {
 		this.listener = listener;
 

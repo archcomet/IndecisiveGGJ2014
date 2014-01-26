@@ -125,6 +125,8 @@ define([
             var facing = new THREE.Vector3();
             facing.copy(object3d.position);
             facing.add(steering.velocity);
+
+            object3d.up.set(0, 1, 0);
             object3d.lookAt(facing);
 
         }

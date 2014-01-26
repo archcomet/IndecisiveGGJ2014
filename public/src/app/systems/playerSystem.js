@@ -3,9 +3,10 @@ define([
     'three',
     'components/threeComponent',
     'components/steeringComponent',
-    'components/playerComponent'
+    'components/playerComponent',
+    'components/enemyAIComponent'
 
-], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent) {
+], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent, EnemyAIComponent) {
 
     var PlayerSystem = cog.Factory.extend('PlayerSystem', {
 
@@ -19,7 +20,8 @@ define([
                 constructor: SteeringComponent,
                 defaults: {
                     maxSpeed: 20,
-                    maxAcceleration: 3
+                    maxAcceleration: 3,
+                    avoidCorners: false
                 }
             },
             player: {
@@ -61,6 +63,36 @@ define([
 
             events.emit('addToScene', entity);
         },
+
+        update: function(entities, events) {
+            var enemyPosition,
+                enemies = entities.withComponents(EnemyAIComponent),
+                playerPosition = this.player.components(THREEComponent).mesh.position,
+                i = 0,
+                n = enemies.length;
+
+            var enemyOffset = new THREE.Vector3(),
+                enemyOffsetLength;
+
+            for(; i < n; ++i) {
+                enemyPosition = enemies[i].components(THREEComponent).mesh.position;
+
+                enemyOffset.copy(enemyPosition);
+                enemyOffset.sub(playerPosition);
+
+                enemyOffsetLength = enemyOffset.length();
+
+                if (enemyOffsetLength < 200) {
+                    this.handleCollision(enemies[i]);
+                    events.emit('enemyCollisionEvent', enemies[i], this.player);
+                }
+            }
+        },
+
+        handleCollision: function(enemy) {
+
+        },
+
 
         'playerSeekDirection event': function(dx, dy) {
             var pos = this.player.components(THREEComponent).mesh.position;
