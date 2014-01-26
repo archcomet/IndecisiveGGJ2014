@@ -29,8 +29,8 @@ define([
 
             this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 15000);
             this.camera.position.x = 0;
-            this.camera.position.y = 0;
-            this.camera.position.z = 4000;
+            this.camera.position.y = -500;
+            this.camera.position.z = 4500;
 
             this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -56,6 +56,19 @@ define([
 
         update: function(entities, events, dt) {
             this.renderer.render(this.scene, this.camera);
+
+            var playerEntity = entities.withTag('Player')[0],
+                playerObject3d = playerEntity.components(THREEComponent).mesh,
+                playerPosition = playerObject3d.position;
+
+            var length = playerPosition.length() * 0.02;
+
+            var lookTarget = new THREE.Vector3();
+            lookTarget.copy(playerPosition);
+            lookTarget.normalize();
+            lookTarget.multiplyScalar(length);
+
+            this.camera.lookAt(lookTarget);
         },
 
         onWindowResize: function() {

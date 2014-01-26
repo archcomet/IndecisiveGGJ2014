@@ -30,11 +30,9 @@ define([
         /*** behaviors ***/
 
         updateBehavior: function(steering, object3d) {
-            if (!steering.behavior || !this[steering.behavior]) {
-                return;
+            if (steering.behavior && this[steering.behavior]) {
+                this[steering.behavior](steering, object3d);
             }
-            this[steering.behavior](steering, object3d);
-            // rotate to velocity
         },
 
         arrival: function(steering, object3d) {
@@ -58,8 +56,12 @@ define([
             desiredVelocity.copy(steering.target);
             desiredVelocity.sub(object3d.position);
 
+            var distance = object3d.position.distanceTo(steering.target);
+            distance = distance < 10 ? 0 : distance;
+            var speed = distance < steering.maxSpeed ? distance : steering.maxSpeed;
+
             desiredVelocity.normalize();
-            desiredVelocity.multiplyScalar(steering.maxSpeed);
+            desiredVelocity.multiplyScalar(speed);
 
             this.steerForVelocity(desiredVelocity, steering, object3d);
         },
@@ -89,10 +91,26 @@ define([
 
         updatePosition: function(steering, object3d) {
 
+            var speed = steering.velocity.length();
+
+            if (!steering.behavior) {
+                speed *= (1 - steering.drag);
+            }
+
             // Cap velocity
-            if (steering.velocity.lengthSq() > steering.maxSpeed * steering.maxSpeed) {
-                steering.velocity.normalize();
-                steering.velocity.multiplyScalar(steering.maxSpeed);
+            if (speed > steering.maxSpeed) {
+                speed = steering.maxSpeed;
+            }
+
+            steering.velocity.normalize();
+            steering.velocity.multiplyScalar(speed);
+
+            if (Math.abs(steering.velocity.x) < 0.0000001) {
+                steering.velocity.x = 0;
+            }
+
+            if (Math.abs(steering.velocity.y) < 0.0000001) {
+                steering.velocity.y = 0;
             }
 
             // adjust position
@@ -114,7 +132,6 @@ define([
                 object3d.position.y = -2500;
             }
 
-
         },
 
         updateRotation: function(steering, object3d) {
@@ -122,6 +139,8 @@ define([
             var facing = new THREE.Vector3();
             facing.copy(object3d.position);
             facing.add(steering.velocity);
+
+            object3d.up.set(0, 1, 0);
             object3d.lookAt(facing);
 
         }

@@ -16,6 +16,8 @@ define([
 
             slowingDistance: 100,
 
+            drag: 0.2,
+
             // things for calculations
 
             velocity: null,
@@ -25,7 +27,13 @@ define([
         init: function(entity, props) {
             this._super(entity, props);
 
-            this.target = this.target || new THREE.Vector3();
+            var target = new THREE.Vector3();
+
+            if (this.target) {
+                target.set(this.target.x, this.target.y, this.target.z);
+            }
+
+            this.target = target;
             this.velocity = new THREE.Vector3();
         }
 
