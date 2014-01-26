@@ -91,7 +91,7 @@ define([
         },
 
         handleCollision: function(enemy) {
-
+            game.events.emit('playSound', 'shape_disappear');
         },
 
 
