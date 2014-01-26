@@ -20,17 +20,25 @@ define([
     var TETRAHEDRON_GEO = new THREE.TetrahedronGeometry(150);
 
     var PREY_MAT  = new THREE.MeshLambertMaterial({
-        ambient: 0x000033,
-        color: 0x0000ff,
-        emissive: 0x000033,
-        shininess: 50
+
+        ambient: 0xffffff,
+        // color: 0x0024ff,
+        emissive: 0x00aeef,
+        shininess: 100,
+        shading: THREE.FlatShading,
+        wireframe: true,
+        wireframeLinewidth: 2.0,
+        wireframeLinecap: "round"
     });
 
     var PREDATOR_MAT = new THREE.MeshLambertMaterial({
-        ambient: 0x330000,
-        color: 0xff0000,
-        emissive: 0x000033,
-        shininess: 50
+        ambient: 0xffffff,
+        color: 0xff000c,
+        emissive: 0xff009d,
+        shininess: 50,
+        transparent: true,
+        opacity: 0.5,
+        side: THREE.FrontSide,
     });
 
     var EnemySystem = cog.Factory.extend('EnemySystem', {

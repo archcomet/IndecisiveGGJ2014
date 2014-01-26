@@ -22,8 +22,9 @@ define([
                 verticalWall = new THREE.CubeGeometry(100, 5200, 100);
 
             var wallMaterial = new THREE.MeshPhongMaterial({
-                ambient: 0xff0000,
-                color: 0xff0000,
+                // ambient: 0xffffff,
+                color: 0xffffff,
+                // emissive: 0xffffff,
                 shininess: 50
             });
 

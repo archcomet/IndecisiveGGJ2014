@@ -5,6 +5,8 @@ define([
 ], function(cog, THREE, THREEComponent) {
 
     var composer;
+    var directionalLight;
+    var pointLights = [];
     var THREESystem = cog.System.extend({
 
         properties: {
@@ -41,15 +43,45 @@ define([
             //this.scene.fog.color.setHSL( 0.51, 0.4, 0.01 );
 
 
-            var light = new THREE.PointLight( 0xffffff, 1.5, 10000);
-            light.color.setHSL(0.55, 0.9, 0.5);
-            light.position.set( 0, 700, 500 );
+            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
+            light.position.set( -4000, 2500, 300 );
             this.scene.add(light);
+            pointLights.push(light);
 
-            light = new THREE.PointLight( 0xffffff, 1.5, 10500);
-            light.color.setHSL(0.0, 0.9, 0.5);
-            light.position.set( 0, 0, 2000 );
+            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
+            light.position.set( 4000, 2500, 300 );
             this.scene.add(light);
+            pointLights.push(light);
+
+            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
+            light.position.set( -4000, -2500, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+
+            var light = new THREE.PointLight( 0xff0000, 1.0, 4000);
+            light.position.set( 4000, -2500, 300 );
+            this.scene.add(light);
+            pointLights.push(light);
+
+            var light = new THREE.PointLight( 0x4444ff, 2.5, 12000);
+            light.position.set( 0, 0, -5000 );
+            this.scene.add(light);
+            pointLights.push(light);
+
+            // light = new THREE.PointLight( 0xffffff, 1.0, 10000);
+            // light.color.setRGB(1.0, 1.0, 1.0);
+            // light.position.set( 0, 0, -500 );
+            // this.scene.add(light);
+            // pointLights.push(light);
+
+            /*light = new THREE.PointLight( 0xffffff, 1.5, 10500);
+            light.color.setRGB(0.5, 0.5, 0.5);
+            light.position.set( 400, 0, 500 );
+            this.scene.add(light);*/
+
+            // directionalLight = new THREE.DirectionalLight( 0x999999, 0.5 );
+            // directionalLight.position.set( 0, 0, 500 );
+            // this.scene.add( directionalLight );
 
 
             document.getElementById('container').appendChild(this.renderer.domElement);
@@ -99,6 +131,9 @@ define([
 
             // Render the scene
             this.render();
+
+            for(var i = 0; i < pointLights.lenght; i++)
+              pointLights[i].position.x += 10;
         },
 
         render: function() {
