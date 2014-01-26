@@ -7,6 +7,7 @@ define([
 
 ], function(cog, THREE, THREEComponent, SteeringComponent, EnemyAIComponent) {
 
+    var NEIGHBORHOOD = 1000;
     var EnemySystem = cog.Factory.extend('EnemySystem', {
 
         entityTag: 'Enemy',
@@ -150,6 +151,7 @@ define([
                     y = cog.rand.arc4rand(-1000, 1000);
 
                 enemySteering.behavior = 'seek';
+                enemySteering.neighborhood = NEIGHBORHOOD;
                 enemySteering.target.set(x, y, 0);
                 enemyAI.state = EnemyAIComponent.AI_FLEE_CORNER;
 
@@ -157,6 +159,7 @@ define([
             }
 
             enemySteering.behavior = 'flee';
+            enemySteering.neighborhood = undefined;
             enemySteering.target.copy(playerPosition);
         },
 
@@ -189,6 +192,7 @@ define([
 
             var enemySteering = enemyEntity.components(SteeringComponent);
             enemySteering.behavior = 'seek';
+            enemySteering.neighborhood = NEIGHBORHOOD;
             enemySteering.target.copy(playerPosition);
         },
 
