@@ -4,6 +4,7 @@ define([
     'components/threeComponent'
 ], function(cog, THREE, THREEComponent) {
 
+    var composer;
     var THREESystem = cog.System.extend({
 
         properties: {
@@ -22,10 +23,11 @@ define([
         },
 
         configure: function() {
-            this.renderer = new THREE.WebGLRenderer({alpha:true});
-            this.renderer.clearColor(0x000000, 0);
 
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
+            this.renderer = new THREE.WebGLRenderer( { antialias: false, alpha:true } );
+            this.renderer.setSize( window.innerWidth, window.innerHeight );
+            this.renderer.autoClear = false;
+            this.renderer.clearColor(0x000000, 0);
 
             this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 15000);
             this.camera.position.x = 0;
@@ -52,11 +54,34 @@ define([
 
             document.getElementById('container').appendChild(this.renderer.domElement);
             window.addEventListener('resize', this.onWindowResize.bind(this), false );
+
+            // This adds a few post processing effects
+            this.composePostProcessing();
+        },
+
+        composePostProcessing: function(){
+          var renderModel = new THREE.RenderPass( this.scene, this.camera );
+          var effectBloom = new THREE.BloomPass( 1.3 );
+          var effectCopy = new THREE.ShaderPass( THREE.CopyShader );
+
+          effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
+
+          var width = window.innerWidth || 2;
+          var height = window.innerHeight || 2;
+
+          effectFXAA.uniforms[ 'resolution' ].value.set( 1 / width, 1 / height );
+
+          effectCopy.renderToScreen = true;
+
+          this.composer = new THREE.EffectComposer( this.renderer );
+
+          this.composer.addPass( renderModel );
+          this.composer.addPass( effectFXAA );
+          this.composer.addPass( effectBloom );
+          this.composer.addPass( effectCopy );
         },
 
         update: function(entities, events, dt) {
-            this.renderer.render(this.scene, this.camera);
-
             var playerEntity, playerThree, playerPosition;
 
             playerEntity = entities.withTag('Player')[0];
@@ -71,12 +96,31 @@ define([
             lookTarget.multiplyScalar(length);
 
             this.camera.lookAt(lookTarget);
+
+            // Render the scene
+            this.render();
+        },
+
+        render: function() {
+            // For not post processing
+            this.renderer.render(this.scene, this.camera);
+
+            // TODO: For awesome post processing, but doesn't work :C
+            // this.renderer.clear();
+            // this.composer.render();
         },
 
         onWindowResize: function() {
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
             this.renderer.setSize( window.innerWidth, window.innerHeight );
+
+
+            this.camera.updateProjectionMatrix();
+
+            this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+
+            this.composer.reset();
         },
 
         'addToScene event': function(threeObject) {

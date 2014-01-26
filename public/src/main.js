@@ -37,7 +37,6 @@
 
     ], function(cog, $, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem) {
 
-
         var game = cog.createDirector({
             fixedDt: false,
             soundEnabled: true,
