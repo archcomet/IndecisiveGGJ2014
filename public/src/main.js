@@ -32,12 +32,8 @@
         'systems/enemyAISystem',
         'systems/gamepadSystem',
         'systems/promptSystem'
-        
-<<<<<<< HEAD
-    ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem) {
-=======
-    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, PromptSystem) {
->>>>>>> d18f96fcd3a94ba897fc96111051248ecdeb231b
+
+    ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, PromptSystem) {
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -53,11 +49,39 @@
                     fileName: 'sfx/shape-disappear.mp3'
                 },
                 {
-                    name: 'square',
-                    fileName: 'music/square.mp3',
+                    name: 'negative_hit',
+                    fileName: 'sfx/NegativeHit_01.mp3'
+                },
+                {
+                    name: 'positive_hit',
+                    fileName: 'sfx/PositiveHit_01.mp3'
+                },
+                {
+                    name: 'circle_transformation',
+                    fileName: 'sfx/CircleTransformation_01.mp3'
+                },
+                {
+                    name: 'square_transform',
+                    fileName: 'sfx/SquareTransformation_01.mp3'
+                },
+                {
+                    name: 'triangle_transform',
+                    fileName: 'sfx/TriangleTransformation_01.mp3'
+                },
+                {
+                    name: 'mystery',
+                    fileName: 'music/mystery.mp3',
                     loop: {
                         start: 0,
-                        stop: 13.10
+                        stop: 13.889
+                    }
+                },
+                {
+                    name: 'square',
+                    fileName: 'music/mystery.mp3',
+                    loop: {
+                        start: 0,
+                        stop: 13.889
                     }
                 },
                 {
@@ -65,7 +89,7 @@
                     fileName: 'music/triangle.mp3',
                     loop: {
                         start: 0,
-                        stop: 13.10
+                        stop: 13.889
                     }
                 },
                 {
@@ -73,7 +97,7 @@
                     fileName: 'music/circle.mp3',
                     loop: {
                         start: 0,
-                        stop: 13.10
+                        stop: 13.889
                     }
                 }
             ]

@@ -85,8 +85,8 @@ define([
 
             // apply looping properties to buffer
             if (sound.loop) {
-                source.loopStart = 0;
-                source.loopEnd = 13.10;
+                source.loopStart = sound.loop.start;
+                source.loopEnd = sound.loop.stop;
                 source.loop = true;
             }
 

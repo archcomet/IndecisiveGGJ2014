@@ -91,9 +91,8 @@ define([
         },
 
         handleCollision: function(enemy) {
-            game.events.emit('playSound', 'shape_disappear');
+            //game.events.emit('playSound', 'negative_hit');
         },
-
 
         'playerSeekDirection event': function(dx, dy) {
             var pos = this.player.components(THREEComponent).mesh.position,
