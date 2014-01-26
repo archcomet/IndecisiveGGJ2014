@@ -79,7 +79,7 @@ define(
                 "next": "Childhood3"
             },
             "Childhood3": {
-                "question": "{friendName} was oftern very mean to {name}.",
+                "question": "{friendName} was often very mean to {name}.",
                 "statement": true,
                 "next": "Childhood4"
             },
@@ -145,7 +145,7 @@ define(
                 }
             },
             "Highschool3": {
-                "question": "A nerd.",
+                "question": "Nerd.",
                 "statement": true,
                 "next": "Highschool4"
             },
