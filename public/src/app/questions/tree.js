@@ -15,15 +15,17 @@ define(
                 "year": 0
             },
             "Basic3": {
-                "question": "{name} as born a she.",
+                "question": "{name} was born a she.",
                 "answers": {
                     "agree": {
                         "answer": "That's right.",
-                        "command": "gender girl"
+                        "command": "gender girl",
+                        "position": "up"
                     },
                     "disagree": {
                         "answer": "That's wrong.",
-                        "command": "gender guy"
+                        "command": "gender guy",
+                        "position": "left"
                     }
                 },
                 "next": "Baby1"
@@ -40,11 +42,13 @@ define(
                 "answers": {
                     "agree": {
                         "answer": "That's right.",
-                        "next": "Baby3"
+                        "next": "Baby3",
+                        "position": "left"
                     },
                     "disagree": {
                         "answer": "That's wrong.",
-                        "next": "Baby2_wrong"
+                        "next": "Baby2_wrong",
+                        "position": "right"
                     }
                 }
             },
@@ -94,11 +98,13 @@ define(
                 "answers": {
                     "agree": {
                         "answer": "That's true.",
-                        "next": "Childhood7"
+                        "next": "Childhood7",
+                        "position": "right"
                     },
                     "disagree": {
                         "answer": "No I didn't!",
-                        "next": "Childhood6_wrong"
+                        "next": "Childhood6_wrong",
+                        "position": "down"
                     }
                 }
             },
@@ -128,11 +134,13 @@ define(
                 "answers": {
                     "agree": {
                         "answer": "That's true.",
-                        "next": "Highschool3"
+                        "next": "Highschool3",
+                        "position": "left"
                     },
                     "disagree": {
                         "answer": "I always skipped class.",
-                        "next": "Highschool2_wrong"
+                        "next": "Highschool2_wrong",
+                        "position": "up"
                     }
                 }
             },
@@ -156,11 +164,13 @@ define(
                 "answers": {
                     "agree": {
                         "answer": "Yep.",
-                        "command": "attraction guy"
+                        "command": "attraction other",
+                        "position": "up"
                     },
                     "disagree": {
                         "answer": "Nope.",
-                        "command": "attraction girl"
+                        "command": "attraction same",
+                        "position": "left"
                     }
                 },
                 "next": "Highschool6"
@@ -177,7 +187,7 @@ define(
                 "next": "Highschool8"
             },
             "Highschool8": {
-                "question": "Like, OGM. All. The. Time.",
+                "question": "Like, OMG. All. The. Time.",
                 "statement": true,
                 "next": "Highschool9"
             },
@@ -186,11 +196,13 @@ define(
                 "answers": {
                     "agree": {
                         "answer": "Yep.",
-                        "next": "Highschool10"
+                        "next": "Highschool10",
+                        "position": "right"
                     },
                     "disagree": {
                         "answer": "Nope.",
-                        "next": "Highschool9_wrong"
+                        "next": "Highschool9_wrong",
+                        "position": "down"
                     }
                 }
             },
@@ -208,10 +220,12 @@ define(
                 "question": "Are you guys still dating?",
                 "answers": {
                     "agree": {
-                        "answer": "Yep."
+                        "answer": "Yep.",
+                        "position": "left"
                     },
                     "disagree": {
-                        "answer": "Nope."
+                        "answer": "Nope.",
+                        "position": "right"
                     }
                 },
                 "next": "Highschool11"
@@ -220,10 +234,12 @@ define(
                 "question": "The following year was that atrocious exam {pronoun} failed.",
                 "answers": {
                     "agree": {
-                        "answer": "Yep."
+                        "answer": "Yep.",
+                        "position": "left"
                     },
                     "disagree": {
-                        "answer": "Nope."
+                        "answer": "Nope.",
+                        "position": "right"
                     }
                 },
                 "next": "Highschool11"

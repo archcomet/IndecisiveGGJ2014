@@ -38,6 +38,7 @@
         'systems/backgroundSystem',
         'systems/roomSystem'
 
+
     ], function(cog, $,
                 SoundSystem,
                 ThreeSystem,
@@ -56,7 +57,7 @@
 
         var game = cog.createDirector({
             fixedDt: false,
-            soundEnabled: true,
+            soundEnabled: false,
             assetDirectory: '../public/src/assets/',
             sounds: [
                 {
@@ -137,8 +138,6 @@
         game.systems.add(RoomSystem);
 
         game.start();
-
-        game.events.emit('changeRoom', { door: 'SOUTH', enemyCount: 30 })
 
         window.game = game;
     });
