@@ -10,7 +10,7 @@ define([
 ], function(cog, THREE, THREEComponent, SteeringComponent, EnemyAIComponent, MaterialComponent, ShapeComponent) {
 
     var NEIGHBORHOOD = 400,
-        CHASESPEED = 80,
+        CHASESPEED = 75,
         FLEESPEED = 11;
 
     var CUBE_GEO = new THREE.CubeGeometry(150, 150, 150);

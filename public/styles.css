@@ -13,6 +13,21 @@ canvas {
     position: absolute;
 }
 
+#score {
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    color: #09ff00;
+    font-family: Arcade;
+    font-size: 1.2em;
+    z-index: 2;
+    display:none;
+}
+
+#scoreNumber {
+    display: inline-block;
+}
+
 #container{
     background-color: #000000;
     height: 100%;

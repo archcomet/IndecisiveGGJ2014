@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'cog',
     'three',
     'components/threeComponent',
@@ -8,7 +9,7 @@ define([
     'components/shapeComponent',
     'components/materialComponent'
 
-], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent, EnemyAIComponent, ShapeComponent, MaterialComponent) {
+], function($, cog, THREE, THREEComponent, SteeringComponent, PlayerComponent, EnemyAIComponent, ShapeComponent, MaterialComponent) {
 
     var CUBE_GEO = new THREE.CubeGeometry(200, 200, 200);
 
@@ -84,6 +85,8 @@ define([
 
             this.events = events;
             this.player = entity;
+            this.score = 0;
+            this.scoreVisible = false;
 
             this.particleSystem = this.summonParticles(events);
         },
@@ -137,22 +140,26 @@ define([
 
             if (enemyGeometry === playerGeometry) {
                 this.events.emit('goodCollision', enemyPosition);
-                // if(this.position){
-                  this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
-                                      this.player.components(THREEComponent).mesh.position.y,
-                                      this.particleGeometry, this.particleMaterial,
-                                      0.5, 0.5, 1.0);
-                // }
+                this.score += 1000;
+                this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
+                                  this.player.components(THREEComponent).mesh.position.y,
+                                  this.particleGeometry, this.particleMaterial,
+                                  0.5, 0.5, 1.0);
+
             } else {
                 this.events.emit('badCollision', enemyPosition);
-                // if(this.position) {
-                  this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
-                                      this.player.components(THREEComponent).mesh.position.y,
-                                      this.particleGeometry, this.particleMaterial,
-                                      1.0, 0.5, 0.5);
-                // }
+                this.score -= 10000;
+                this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
+                                  this.player.components(THREEComponent).mesh.position.y,
+                                  this.particleGeometry, this.particleMaterial,
+                                  1.0, 0.5, 0.5);
             }
 
+            if (!this.scoreVisible) {
+                $('#score').show();
+                this.scoreVisible = true;
+            }
+            $('#scoreNumber').text(this.score);
 
             this.events.emit('despawn Enemy', enemy);
         },
