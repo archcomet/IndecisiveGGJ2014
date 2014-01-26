@@ -5,7 +5,7 @@ define([
 
     var QuestionSystem = cog.System.extend({
         defaults: {
-            firstName: "Claire",
+            firstName: "Alex",
             birthDate: 1988,
             gender: "girl",
             otherGender: "guy",
@@ -14,12 +14,20 @@ define([
             replace: null,
             pointer: "Basic1",
             setValue: null,
-            friendName: "Pat",
+            friendName: "Sam",
             currentDate: 1988,
             otherName: "Robert"
         },
 
         configure: function(entities, events) {
+            function gup (name) {
+                // Taken from stack overflow
+                name = RegExp ('[?&]' + name.replace (/([[\]])/, '\\$1') + '=([^&#]*)');
+                return (window.location.href.match (name) || ['', ''])[1];
+            }
+            this.firstName = gup("name") || "Claire";
+            this.birthDate = parseInt(gup("birthdate") || 1988);
+
             var t = document.getElementById("questions");
 
             this.replace = function(text) {
@@ -54,7 +62,6 @@ define([
                 }
             }.bind(this);
 
-            //t.innerText = this.replace(Tree.questions.Basic1.question);
             events.emit("changeQuestion", this.replace(Tree.questions.Basic1.question));
         },
 
@@ -62,41 +69,9 @@ define([
 
         },
 
-        'button event': function(input) {
-            var next = "";
-            if(!Tree.questions[this.pointer].statement) {
-                var answers = Tree.questions[this.pointer].answers;
-                if(input === 'x') {
-                    next = answers.agree.next;
-                    if(answers.agree.command) {
-                        this.setValue(answers.agree.command);
-                    }
-                } else if(input === 'o') {
-                    next = answers.disagree.next;
-                    if(answers.agree.command) {
-                        this.setValue(answers.disagree.command);
-                    }
-                }
-            }
-
-            if(!next) {
-                next = Tree.questions[this.pointer].next;
-            }
-
-            if(Tree.questions[next].year) {
-                this.currentDate = this.birthDate + Tree.questions[next].year;
-            }
-
-            this.pointer = next;
-
-            var t = document.getElementById("questions");
-
-            t.innerText = this.replace(Tree.questions[this.pointer].question);
-        },
-
         'door event': function(choice, events) {
             var next = "";
-            if(!Tree.questions[this.pointer].statement) {
+            if(Tree.questions[this.pointer].answers) {
                 var answers = Tree.questions[this.pointer].answers;
                 if(choice === answers.agree.position) {
                     next = answers.agree.next;
@@ -144,19 +119,16 @@ define([
             }
 
             events.emit("changeQuestion", this.replace(Tree.questions[this.pointer].question));
-            if(!Tree.questions[this.pointer].statement) {
+            if(Tree.questions[this.pointer].answers) {
                 events.emit("changeAnswer", Tree.questions[this.pointer].answers.agree.position, Tree.questions[this.pointer].answers.agree.answer);
                 events.emit("changeAnswer", Tree.questions[this.pointer].answers.disagree.position, Tree.questions[this.pointer].answers.disagree.answer);
-
-                events.emit('changeRoom', { door: doorStr, enemyCount: 10 });
             } else {
                 events.emit("changeAnswer", "up", "");
                 events.emit("changeAnswer", "down", "");
                 events.emit("changeAnswer", "left", "");
                 events.emit("changeAnswer", "right", "");
-
-                events.emit('changeRoom', { door: doorStr, enemyCount: 0 });
             }
+            events.emit('changeRoom', { door: doorStr, enemyCount: Tree.questions[this.pointer].spawn });
             events.emit("addMood");
         },
 

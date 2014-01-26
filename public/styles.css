@@ -64,3 +64,23 @@ canvas {
     top: calc(50% - 25px);
     left: calc(75% - 100px);
 }
+
+.formtext {
+    color: #ffffff;
+    font-size: 0.9em;
+    font-family: Arcade;
+
+}
+
+.formfield {
+    color: #222222;
+    font-size: 0.9em;
+    font-family: Arcade;
+    background-color: white;
+}
+
+.form {
+    width: 400px;
+    margin-left: calc(50% - 200px);
+    margin-top: 200px;
+}

@@ -4,13 +4,13 @@ define(
             "Basic1": {
                 "question": "Meet {name}. That is you.",
                 "input": true,
-                "statement": true,
+                "spawn": 0,
                 "next": "Basic2"
             },
             "Basic2": {
                 "question": "{name} was born in {year}.",
                 "input": true,
-                "statement": true,
+                "spawn": 0,
                 "next": "Basic3",
                 "year": 0
             },
@@ -28,11 +28,12 @@ define(
                         "position": "left"
                     }
                 },
+                "spawn": 5,
                 "next": "Baby1"
             },
             "Baby1": {
                 "question": "{pronoun} learned to walk in {year}.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Baby2",
                 "year": 1
             },
@@ -50,47 +51,48 @@ define(
                         "next": "Baby2_wrong",
                         "position": "right"
                     }
-                }
+                },
+                "spawn": 5
             },
             "Baby2_wrong": {
                 "question": "Oh. Sorry.",
-                "statement": true,
+                "spawn": 3,
                 "next": "Baby3"
             },
             "Baby3": {
                 "question": "Well, {pronoun} was a baby. Boring.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Baby4"
             },
             "Baby4": {
                 "question": "Let's skip to childhood.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Childhood1"
             },
             "Childhood1": {
                 "question": "Meet {name}. In {year}, {name} was at school.",
-                "statement": true,
+                "spawn": 7,
                 "next": "Childhood2",
                 "year": 7
             },
             "Childhood2": {
                 "question": "During recess, {pronoun} played a lot with another kid, {friendName}.",
-                "statement": true,
+                "spawn": 8,
                 "next": "Childhood3"
             },
             "Childhood3": {
                 "question": "{friendName} was oftern very mean to {name}.",
-                "statement": true,
+                "spawn": 5,
                 "next": "Childhood4"
             },
             "Childhood4": {
                 "question": "One day, {friendName} lost her favorite toy, a doll. {name} really wanted that doll.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Childhood5"
             },
             "Childhood5": {
                 "question": "That day, {name} found the doll on the floor.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Childhood6"
             },
             "Childhood6": {
@@ -106,26 +108,27 @@ define(
                         "next": "Childhood6_wrong",
                         "position": "down"
                     }
-                }
+                },
+                "spawn": 10
             },
             "Childhood6_wrong": {
                 "question": "{name} gave the doll back. But {pronoun} was jealous of {friendName}. That's just as bad.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Childhood8"
             },
             "Childhood7": {
                 "question": "That was mean.",
-                "statement": true,
+                "spawn": 20,
                 "next": "Childhood8"
             },
             "Childhood8": {
                 "question": "Let's skip to highschool.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Highschool1"
             },
             "Highschool1": {
                 "question": "Meet {name}. In {year}, {name} was in highschool.",
-                "statement": true,
+                "spawn": 15,
                 "next": "Highschool2",
                 "year": 12
             },
@@ -142,21 +145,22 @@ define(
                         "next": "Highschool2_wrong",
                         "position": "up"
                     }
-                }
+                },
+                "spawn": 10
             },
             "Highschool3": {
                 "question": "A nerd.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Highschool4"
             },
             "Highschool2_wrong": {
                 "question": "Hippie.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Highschool4"
             },
             "Highschool4": {
                 "question": "By the way, are you, hum...",
-                "statement": true,
+                "spawn": 0,
                 "next": "Highschool5"
             },
             "Highschool5": {
@@ -173,22 +177,23 @@ define(
                         "position": "left"
                     }
                 },
-                "next": "Highschool6"
+                "next": "Highschool6",
+                "spawn": 10
             },
             "Highschool6": {
                 "question": "In {year}, {name} had a huge crush on a {otherGender}. That {otherGender}'s name was {otherName}.",
                 "year": 14,
-                "statement": true,
+                "spawn": 10,
                 "next": "Highschool7"
             },
             "Highschool7": {
                 "question": "{name} was thinking of that {otherGender}, like all the time.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Highschool8"
             },
             "Highschool8": {
                 "question": "Like, OMG. All. The. Time.",
-                "statement": true,
+                "spawn": 0,
                 "next": "Highschool9"
             },
             "Highschool9": {
@@ -204,16 +209,18 @@ define(
                         "next": "Highschool9_wrong",
                         "position": "down"
                     }
-                }
+                },
+                "spawn": 20
             },
             "Highschool10": {
                 "question": "Yet another thing to regret.",
-                "statement": true,
-                "next": "Highschool11"
+                "spawn": 0,
+                "next": "Highschool11",
+                "spawn": 20
             },
             "Highschool9_wrong": {
                 "question": "Good for you!",
-                "statement": true,
+                "spawn": 0,
                 "next": "Highschool9_wrong_2"
             },
             "Highschool9_wrong_2": {
@@ -228,7 +235,8 @@ define(
                         "position": "right"
                     }
                 },
-                "next": "Highschool11"
+                "next": "Highschool11",
+                "spawn": 5
             },
             "Highschool11": {
                 "question": "The following year was that atrocious exam {pronoun} failed.",
@@ -242,7 +250,8 @@ define(
                         "position": "right"
                     }
                 },
-                "next": "Highschool11"
+                "next": "Highschool11",
+                "spawn": 30
             }
         }
     }
