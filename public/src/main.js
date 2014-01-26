@@ -138,8 +138,6 @@
 
         game.start();
 
-        game.events.emit('changeRoom', { door: 'SOUTH', enemyCount: 30 })
-
         window.game = game;
     });
 

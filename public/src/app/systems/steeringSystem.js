@@ -23,6 +23,10 @@ define([
                 steering = entityArray[i].components(SteeringComponent);
                 object3d = entityArray[i].components(ThreeComponent).mesh;
 
+                if (!object3d) {
+                    continue;
+                }
+
                 this.updateBehavior(steering, object3d);
                 this.updatePosition(steering, object3d);
                 this.updateRotation(steering, object3d);

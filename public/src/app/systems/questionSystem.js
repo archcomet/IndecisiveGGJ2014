@@ -127,18 +127,35 @@ define([
 
             this.pointer = next;
 
-            //var t = document.getElementById("questions");
-            //t.innerText = this.replace(Tree.questions[this.pointer].question);
+            var doorStr = "";
+            switch(choice) {
+                case "up":
+                    doorStr = "SOUTH";
+                    break;
+                case "left":
+                    doorStr = "WEST";
+                    break;
+                case "right":
+                    doorStr = "EAST";
+                    break;
+                case "down":
+                    doorStr = "NORTH";
+                    break;
+            }
 
             events.emit("changeQuestion", this.replace(Tree.questions[this.pointer].question));
             if(!Tree.questions[this.pointer].statement) {
                 events.emit("changeAnswer", Tree.questions[this.pointer].answers.agree.position, Tree.questions[this.pointer].answers.agree.answer);
                 events.emit("changeAnswer", Tree.questions[this.pointer].answers.disagree.position, Tree.questions[this.pointer].answers.disagree.answer);
+
+                events.emit('changeRoom', { door: doorStr, enemyCount: 10 });
             } else {
                 events.emit("changeAnswer", "up", "");
                 events.emit("changeAnswer", "down", "");
                 events.emit("changeAnswer", "left", "");
                 events.emit("changeAnswer", "right", "");
+
+                events.emit('changeRoom', { door: doorStr, enemyCount: 0 });
             }
             events.emit("addMood");
         },
