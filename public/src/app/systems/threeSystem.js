@@ -81,50 +81,11 @@ define([
             this.scene.add(light);
             pointLights.push(light);
 
-            // light = new THREE.PointLight( 0xffffff, 1.0, 10000);
-            // light.color.setRGB(1.0, 1.0, 1.0);
-            // light.position.set( 0, 0, -500 );
-            // this.scene.add(light);
-            // pointLights.push(light);
-
-            /*light = new THREE.PointLight( 0xffffff, 1.5, 10500);
-            light.color.setRGB(0.5, 0.5, 0.5);
-            light.position.set( 400, 0, 500 );
-            this.scene.add(light);*/
-
-            // directionalLight = new THREE.DirectionalLight( 0x999999, 0.5 );
-            // directionalLight.position.set( 0, 0, 500 );
-            // this.scene.add( directionalLight );
-
-
             document.getElementById('container').appendChild(this.renderer.domElement);
             window.addEventListener('resize', this.onWindowResize.bind(this), false );
 
-            // This adds a few post processing effects
-            this.composePostProcessing();
         },
 
-        composePostProcessing: function(){
-          var renderModel = new THREE.RenderPass( this.scene, this.camera );
-          var effectBloom = new THREE.BloomPass( 1.3 );
-          var effectCopy = new THREE.ShaderPass( THREE.CopyShader );
-
-          this.effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
-
-          var width = window.innerWidth || 2;
-          var height = window.innerHeight || 2;
-
-          this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / width, 1 / height );
-
-          effectCopy.renderToScreen = true;
-
-          this.composer = new THREE.EffectComposer( this.renderer );
-
-          this.composer.addPass( renderModel );
-          this.composer.addPass( this.effectFXAA );
-          this.composer.addPass( effectBloom );
-          this.composer.addPass( effectCopy );
-        },
 
         update: function(entities, events, dt) {
             var playerEntity, playerThree, playerPosition;
@@ -149,10 +110,6 @@ define([
         render: function() {
             // For not post processing
             this.renderer.render(this.scene, this.camera);
-
-            // TODO: For awesome post processing, but doesn't work :C
-            // this.renderer.clear();
-            // this.composer.render();
         },
 
         onWindowResize: function() {
@@ -162,10 +119,6 @@ define([
 
 
             this.camera.updateProjectionMatrix();
-
-            this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
-
-            this.composer.reset();
         },
 
         'addToScene event': function(threeObject) {
