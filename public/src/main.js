@@ -23,7 +23,6 @@
 
     require([
         'cog',
-        'jquery',
         'systems/soundSystem',
         'systems/threeSystem',
         'systems/meshSystem',
@@ -33,6 +32,14 @@
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
+<<<<<<< HEAD
+        'systems/meshSystem',
+        'systems/gamepadSystem',
+        'systems/promptSystem'
+        
+    ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem,
+                PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem) {
+=======
         'systems/steeringSystem',
         'systems/questionSystem',
         'systems/backgroundSystem',
@@ -53,6 +60,7 @@
                 BackgroundSystem,
                 RoomSystem
         ) {
+>>>>>>> 688256ce25451c2dc298474346bf697a8e288571
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -68,36 +76,57 @@
                     fileName: 'sfx/shape-disappear.mp3'
                 },
                 {
-                    name: 'square',
+                    name: 'negative_hit',
+                    fileName: 'sfx/NegativeHit_01.mp3'
+                },
+                {
+                    name: 'positive_hit',
+                    fileName: 'sfx/PositiveHit_01.mp3'
+                },
+                {
+                    name: 'circle_transformation',
+                    fileName: 'sfx/CircleTransformation_01.mp3'
+                },
+                {
+                    name: 'square_transform',
+                    fileName: 'sfx/SquareTransformation_01.mp3'
+                },
+                {
+                    name: 'triangle_transform',
+                    fileName: 'sfx/TriangleTransformation_01.mp3'
+                },
+                {
+                    name: 'mystery',
                     fileName: 'music/mystery.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
+                },
+                {
+                    name: 'square',
+                    fileName: 'music/square.mp3',
+                    loop: true
                 },
                 {
                     name: 'triangle',
                     fileName: 'music/triangle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 },
                 {
                     name: 'circle',
                     fileName: 'music/circle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 }
             ]
         });
 
         // Low level
         game.systems.add(SoundSystem);
+        game.systems.add(KeyboardSystem);
         game.systems.add(ThreeSystem);
         game.systems.add(MeshSystem);
+
+        game.events.emit('playSound', 'mystery');
+        game.events.emit('playSound', 'triangle', 0);
+        game.events.emit('playSound', 'square', 0);
 
         // Input
         game.systems.add(KeyboardSystem);
