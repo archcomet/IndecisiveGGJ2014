@@ -34,10 +34,15 @@ define(
             "Baby1": {
                 "question": "{pronoun} learned to walk in {year}.",
                 "spawn": 0,
+                "next": "Baby1_2",
+                "year": 1
+            },
+            "Baby1_2": {
+                "question": "By the way, press j, k and l. Or the buttons to the right of the controller.",
+                "spawn": 10,
                 "next": "Baby2",
                 "year": 1
             },
-
             "Baby2": {
                 "question": "{name} lived in a very loving family.",
                 "answers": {
@@ -159,7 +164,7 @@ define(
                 "next": "Highschool4"
             },
             "Highschool4": {
-                "question": "By the way, are you, hum...",
+                "question": "By the way, are you, um...",
                 "spawn": 0,
                 "next": "Highschool5"
             },
@@ -242,15 +247,41 @@ define(
                 "answers": {
                     "agree": {
                         "answer": "Yep.",
-                        "position": "left"
+                        "position": "left",
+                        "next": "Highschool12"
                     },
                     "disagree": {
                         "answer": "Nope.",
-                        "position": "right"
+                        "position": "right",
+                        "next": "Highschool11_wrong"
                     }
                 },
-                "next": "Highschool11",
                 "spawn": 30
+            },
+            "Highschool12": {
+                "question": "{name} was desesperate.",
+                "spawn": 0,
+                "next": "Highschool13"
+            },
+            "Highschool11_wrong": {
+                "question": "You really are a nerd.",
+                "spawn": 10,
+                "next": "Highschool13_nerd"
+            },
+            "Highschool13": {
+                "question": "To forget, {pronoun} organized a party.",
+                "spawn": 0,
+                "next": "Highschool14"
+            },
+            "Highschool13_nerd": {
+                "question": "To celebrate, {pronoun} organized a party.",
+                "spawn": 0,
+                "next": "Highschool14"
+            },
+            "Highschool14": {
+                "question": "",
+                "spawn": 200,
+                "next": "Highschool14"
             }
         }
     }
