@@ -43,14 +43,12 @@ define([
             });
 
             gamepad.bind(Gamepad.Event.AXIS_CHANGED, function(device) {
-                if(device.value < 0.5 && device.value > -0.5) { return; }
-
                 switch(device.axis) {
                     case "LEFT_STICK_X":
-                        this.direction.x = device.value;
+                        this.direction.x = device.value < 0.5 && device.value > -0.5 ? 0 : device.value;
                         break;
                     case "LEFT_STICK_Y":
-                        this.direction.y = device.value;
+                        this.direction.y = device.value < 0.5 && device.value > -0.5 ? 0 : device.value;
                         break;
                 }
             }.bind(this));
@@ -64,8 +62,6 @@ define([
             if(this.direction.x !== 0 || this.direction.y !== 0) {
                 // dY is reversed
                 events.emit("playerSeekDirection", this.direction.x, -this.direction.y);
-                this.direction.x = 0;
-                this.direction.y = 0;
             }
         }
     });
