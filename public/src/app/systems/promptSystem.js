@@ -12,11 +12,6 @@ define([
             animateCount: 0
         },
 
-        configure: function () {
-
-            this.animatePrompt();
-        },
-
         update: function () {
 
             this.animatePrompt()
