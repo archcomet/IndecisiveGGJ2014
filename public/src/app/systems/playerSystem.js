@@ -1,4 +1,5 @@
 define([
+    'jquery',
     'cog',
     'three',
     'components/threeComponent',
@@ -8,7 +9,7 @@ define([
     'components/shapeComponent',
     'components/materialComponent'
 
-], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent, EnemyAIComponent, ShapeComponent, MaterialComponent) {
+], function($, cog, THREE, THREEComponent, SteeringComponent, PlayerComponent, EnemyAIComponent, ShapeComponent, MaterialComponent) {
 
     var CUBE_GEO = new THREE.CubeGeometry(200, 200, 200);
 
@@ -21,6 +22,33 @@ define([
         color: 0xffffff,
         emissive: 0xaaaaaa,
         shininess: 100
+    });
+
+    var MATERIAL_SQUARE = new THREE.MeshPhongMaterial({
+        // ambient: 0x333333,
+        // color: 0xffffff,
+        emissive: 0xff9600,
+        transparent: true,
+        opacity: 0.8,
+        side: THREE.DoubleSide,
+        shininess: 10
+    });
+
+    var MATERIAL_CIRCLE = new THREE.MeshPhongMaterial({
+        // ambient: 0x333333,
+        // color: 0xffffff,
+        emissive: 0xffc3f4,
+        shininess: 100
+    });
+
+    var MATERIAL_TRIANGLE = new THREE.MeshPhongMaterial({
+        // ambient: 0x333333,
+        // color: 0xffffff,
+        // emissive: 0x20ff18,
+        transparent: true,
+        opacity: 0.6,
+        side: THREE.DoubleSide,
+        shininess: 50
     });
 
     var particleSystem;
@@ -39,8 +67,10 @@ define([
             material: {
                 constructor: MaterialComponent,
                 defaults: {
-                    materialType: MaterialComponent.TYPE_PREY,
-                    preyMaterial: MATERIAL,
+                    materialType: MaterialComponent.TYPE_SQUARE,
+                    squareMaterial: MATERIAL_SQUARE,
+                    triangleMaterial: MATERIAL_TRIANGLE,
+                    circleMaterial: MATERIAL_CIRCLE,
                     needsUpdate: true
                 }
             },
@@ -84,6 +114,8 @@ define([
 
             this.events = events;
             this.player = entity;
+            this.score = 0;
+            this.scoreVisible = false;
 
             this.particleSystem = this.summonParticles(events);
         },
@@ -137,22 +169,26 @@ define([
 
             if (enemyGeometry === playerGeometry) {
                 this.events.emit('goodCollision', enemyPosition);
-                // if(this.position){
-                  this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
-                                      this.player.components(THREEComponent).mesh.position.y,
-                                      this.particleGeometry, this.particleMaterial,
-                                      0.5, 0.5, 1.0);
-                // }
+                this.score += 1000;
+                this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
+                                  this.player.components(THREEComponent).mesh.position.y,
+                                  this.particleGeometry, this.particleMaterial,
+                                  0.5, 0.5, 1.0);
+
             } else {
                 this.events.emit('badCollision', enemyPosition);
-                // if(this.position) {
-                  this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
-                                      this.player.components(THREEComponent).mesh.position.y,
-                                      this.particleGeometry, this.particleMaterial,
-                                      1.0, 0.5, 0.5);
-                // }
+                this.score -= 10000;
+                this.resetParticles(this.player.components(THREEComponent).mesh.position.x,
+                                  this.player.components(THREEComponent).mesh.position.y,
+                                  this.particleGeometry, this.particleMaterial,
+                                  1.0, 0.5, 0.5);
             }
 
+            if (!this.scoreVisible) {
+                $('#score').show();
+                this.scoreVisible = true;
+            }
+            $('#scoreNumber').text(this.score);
 
             this.events.emit('despawn Enemy', enemy);
         },
@@ -188,7 +224,8 @@ define([
 
         'playerChangeShape event': function(geometryType) {
             if (this.currentShape !== geometryType) {
-                var shape = this.player.components(ShapeComponent);
+                var shape = this.player.components(ShapeComponent),
+                    material = this.player.components(MaterialComponent);
 
                 shape.geometryType = geometryType;
                 shape.needsUpdate = true;
@@ -196,12 +233,18 @@ define([
                 switch(geometryType) {
                     case ShapeComponent.TYPE_SQUARE:
                         this.events.emit('playerShapeChanged', 'square');
+                        material.materialType = 3;
+                        material.needsUpdate = true;
                         break;
                     case ShapeComponent.TYPE_TRIANGLE:
                         this.events.emit('playerShapeChanged', 'triangle');
+                        material.materialType = 4;
+                        material.needsUpdate = true;
                         break;
                     case ShapeComponent.TYPE_CIRCLE:
                         this.events.emit('playerShapeChanged', 'circle');
+                        material.materialType = 5;
+                        material.needsUpdate = true;
                         break;
                 }
 

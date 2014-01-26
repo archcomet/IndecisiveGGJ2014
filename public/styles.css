@@ -13,6 +13,21 @@ canvas {
     position: absolute;
 }
 
+#score {
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    color: #09ff00;
+    font-family: Arcade;
+    font-size: 1.2em;
+    z-index: 2;
+    display:none;
+}
+
+#scoreNumber {
+    display: inline-block;
+}
+
 #container{
     background-color: #000000;
     height: 100%;
@@ -21,7 +36,7 @@ canvas {
 }
 
 #prompt{
-    color: #ffffff;
+    color: #00c0ff;
     margin: auto;
     top: calc(50% - 150px);
     left: calc(50% - 250px);
@@ -30,7 +45,7 @@ canvas {
     height: 300px;
     font-family: Arcade;
     position: absolute;
-    opacity: 0.50;
+    opacity: 0.90;
     text-align: center;
 }
 
@@ -40,7 +55,7 @@ canvas {
     font-family: Arcade;
     animation: pulse 2s ease infinite alternate;
     position: absolute;
-    opacity: 0.50;
+    opacity: 0.90;
     text-align: center;
     width: 200px;
 }
@@ -48,21 +63,25 @@ canvas {
 #answer_up {
     top: 125px;
     left: calc(50% - 100px);
+    color: #ff009c;
 }
 
 #answer_down {
     bottom: 85px;
     left: calc(50% - 100px);
+    color: #ff00e4;
 }
 
 #answer_left {
     top: calc(50% - 25px);
     left: calc(25% - 75px);
+    color: #de00ff;
 }
 
 #answer_right {
     top: calc(50% - 25px);
     left: calc(75% - 100px);
+    color: #ff4e00;
 }
 
 .formtext {
