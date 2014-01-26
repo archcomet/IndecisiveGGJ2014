@@ -1685,7 +1685,13 @@
                 var self = this;
                 this['spawn ' + this.entityTag + ' event'] = function() {
                     self.spawn.apply(self, arguments);
-                }
+                };
+                this['despawn ' + this.entityTag + ' event'] = function() {
+                    self.despawn.apply(self, arguments);
+                };
+                this['despawnAll ' + this.entityTag + ' event'] = function() {
+                    self.despawnAll.apply(self, arguments);
+                };
             }
         },
 
@@ -1715,6 +1721,13 @@
                 this._entities.splice(index, 1);
                 entity.destroy();
             }
+        },
+
+        despawnAll: function() {
+            this._entities.forEach(function(entity) {
+                entity.destroy();
+            });
+            this._entities.length = 0;
         }
     });
 

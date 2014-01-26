@@ -9,8 +9,9 @@
             'gamepad': 'libs/gamepad',
             'systems': 'app/systems',
             'components': 'app/components',
-            'geometry': 'app/assets/geometry',
-            'material': 'app/assets/material'
+            'questions': 'app/questions',
+            'jquery': 'libs/jquery.min',
+            'jquery.easing': 'libs/jquery.easing'
         },
 
         shim: {
@@ -22,15 +23,36 @@
 
     require([
         'cog',
+        'jquery',
         'systems/soundSystem',
         'systems/threeSystem',
-        'systems/steeringSystem',
+        'systems/meshSystem',
+        'systems/keyboardSystem',
+        'systems/gamepadSystem',
+        'systems/promptSystem',
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
-        'systems/gamepadSystem'
-        
-    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem) {
+        'systems/steeringSystem',
+        'systems/questionSystem',
+        'systems/backgroundSystem',
+        'systems/roomSystem'
+
+    ], function(cog, $,
+                SoundSystem,
+                ThreeSystem,
+                MeshSystem,
+                KeyboardSystem,
+                GamepadSystem,
+                PromptSystem,
+                SandboxSystem,
+                PlayerSystem,
+                EnemyAISystem,
+                SteeringSystem,
+                QuestionSystem,
+                BackgroundSystem,
+                RoomSystem
+        ) {
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -46,41 +68,77 @@
                     fileName: 'sfx/shape-disappear.mp3'
                 },
                 {
+                    name: 'negative_hit',
+                    fileName: 'sfx/NegativeHit_01.mp3'
+                },
+                {
+                    name: 'positive_hit',
+                    fileName: 'sfx/PositiveHit_01.mp3'
+                },
+                {
+                    name: 'circle_transformation',
+                    fileName: 'sfx/CircleTransformation_01.mp3'
+                },
+                {
+                    name: 'square_transform',
+                    fileName: 'sfx/SquareTransformation_01.mp3'
+                },
+                {
+                    name: 'triangle_transform',
+                    fileName: 'sfx/TriangleTransformation_01.mp3'
+                },
+                {
+                    name: 'mystery',
+                    fileName: 'music/mystery.mp3',
+                    loop: true
+                },
+                {
                     name: 'square',
                     fileName: 'music/square.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 },
                 {
                     name: 'triangle',
                     fileName: 'music/triangle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 },
                 {
                     name: 'circle',
                     fileName: 'music/circle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 }
             ]
         });
 
+        // Low level
         game.systems.add(SoundSystem);
+        game.systems.add(KeyboardSystem);
         game.systems.add(ThreeSystem);
-        game.systems.add(SteeringSystem);
+        game.systems.add(MeshSystem);
+
+        game.events.emit('playSound', 'mystery');
+        game.events.emit('playSound', 'triangle', 0);
+        game.events.emit('playSound', 'square', 0);
+
+        // Input
+        game.systems.add(KeyboardSystem);
+        game.systems.add(GamepadSystem);
+        game.systems.add(PromptSystem);
+
+        // Entities
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
         game.systems.add(EnemyAISystem);
-        game.systems.add(GamepadSystem);
+        game.systems.add(QuestionSystem);
+        game.systems.add(BackgroundSystem);
+
+        // Loccmotion
+        game.systems.add(SteeringSystem);
+        game.systems.add(RoomSystem);
 
         game.start();
+
+        game.events.emit('changeRoom', { door: 'SOUTH', enemyCount: 30 })
 
         window.game = game;
     });
