@@ -95,7 +95,7 @@ define([
             t.innerText = this.replace(Tree.questions[this.pointer].question);
         },
 
-        'door event': function(choice) {
+        'door event': function(choice, events) {
             var next = "";
             if(!Tree.questions[this.pointer].statement) {
                 var answers = Tree.questions[this.pointer].answers;
@@ -125,6 +125,8 @@ define([
             var t = document.getElementById("questions");
 
             t.innerText = this.replace(Tree.questions[this.pointer].question);
+
+            events.emit("addMood");
         }
     });
 
