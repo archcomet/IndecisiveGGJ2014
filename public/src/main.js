@@ -68,36 +68,57 @@
                     fileName: 'sfx/shape-disappear.mp3'
                 },
                 {
-                    name: 'square',
+                    name: 'negative_hit',
+                    fileName: 'sfx/NegativeHit_01.mp3'
+                },
+                {
+                    name: 'positive_hit',
+                    fileName: 'sfx/PositiveHit_01.mp3'
+                },
+                {
+                    name: 'circle_transformation',
+                    fileName: 'sfx/CircleTransformation_01.mp3'
+                },
+                {
+                    name: 'square_transform',
+                    fileName: 'sfx/SquareTransformation_01.mp3'
+                },
+                {
+                    name: 'triangle_transform',
+                    fileName: 'sfx/TriangleTransformation_01.mp3'
+                },
+                {
+                    name: 'mystery',
                     fileName: 'music/mystery.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
+                },
+                {
+                    name: 'square',
+                    fileName: 'music/square.mp3',
+                    loop: true
                 },
                 {
                     name: 'triangle',
                     fileName: 'music/triangle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 },
                 {
                     name: 'circle',
                     fileName: 'music/circle.mp3',
-                    loop: {
-                        start: 0,
-                        stop: 13.10
-                    }
+                    loop: true
                 }
             ]
         });
 
         // Low level
         game.systems.add(SoundSystem);
+        game.systems.add(KeyboardSystem);
         game.systems.add(ThreeSystem);
         game.systems.add(MeshSystem);
+
+        game.events.emit('playSound', 'mystery');
+        game.events.emit('playSound', 'triangle', 0);
+        game.events.emit('playSound', 'square', 0);
 
         // Input
         game.systems.add(KeyboardSystem);

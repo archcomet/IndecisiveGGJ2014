@@ -178,19 +178,19 @@ define([
 
                 switch(geometryType) {
                     case ShapeComponent.TYPE_SQUARE:
-                        this.events.emit('playSound', 'square');
-                        this.events.emit('stopSound', 'triangle');
-                        this.events.emit('stopSound', 'circle');
+                        this.events.emit('unmuteSound', 'square');
+                        this.events.emit('muteSound', 'triangle');
+                        this.events.emit('muteSound', 'mystery');
                         break;
                     case ShapeComponent.TYPE_TRIANGLE:
-                        this.events.emit('stopSound', 'square');
-                        this.events.emit('playSound', 'triangle');
-                        this.events.emit('stopSound', 'circle');
+                        this.events.emit('unmuteSound', 'triangle');
+                        this.events.emit('muteSound', 'square');
+                        this.events.emit('muteSound', 'mystery');
                         break;
                     case ShapeComponent.TYPE_CIRCLE:
-                        this.events.emit('stopSound', 'square');
-                        this.events.emit('stopSound', 'triangle');
-                        this.events.emit('playSound', 'circle');
+                        this.events.emit('unmuteSound', 'mystery');
+                        this.events.emit('muteSound', 'square');
+                        this.events.emit('muteSound', 'triangle');
                         break;
                 }
 
