@@ -24,18 +24,39 @@
     require([
         'cog',
         'systems/soundSystem',
-        'systems/keyboardSystem',
         'systems/threeSystem',
-        'systems/steeringSystem',
+        'systems/meshSystem',
+        'systems/keyboardSystem',
+        'systems/gamepadSystem',
+        'systems/promptSystem',
         'systems/sandbox',
         'systems/playerSystem',
         'systems/enemyAISystem',
+<<<<<<< HEAD
         'systems/meshSystem',
         'systems/gamepadSystem',
         'systems/promptSystem'
         
     ], function(cog, SoundSystem, KeyboardSystem, ThreeSystem, SteeringSystem, SandboxSystem,
                 PlayerSystem, EnemyAISystem, MeshSystem, GamepadSystem, PromptSystem) {
+=======
+        'systems/steeringSystem',
+        'systems/roomSystem'
+
+    ], function(cog, $,
+                SoundSystem,
+                ThreeSystem,
+                MeshSystem,
+                KeyboardSystem,
+                GamepadSystem,
+                PromptSystem,
+                SandboxSystem,
+                PlayerSystem,
+                EnemyAISystem,
+                SteeringSystem,
+                RoomSystem
+        ) {
+>>>>>>> 688256ce25451c2dc298474346bf697a8e288571
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -115,6 +136,7 @@
 
         // Locamotion
         game.systems.add(SteeringSystem);
+        game.systems.add(RoomSystem);
 
         game.start();
 
