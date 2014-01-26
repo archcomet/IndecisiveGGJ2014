@@ -49,10 +49,28 @@ define([
             }
         },
 
-        'changeText event': function(text) {
+        'changeQuestion event': function(text) {
             document.getElementById("prompt").innerText = text;
-        }
+        },
 
+        'changeAnswer event': function(direction, text) {
+            var answer = null;
+            switch(direction) {
+                case 'up':
+                    answer = document.getElementById('answer_up');
+                    break;
+                case 'down':
+                    answer = document.getElementById('answer_down');
+                    break;
+                case 'left':
+                    answer = document.getElementById('answer_left');
+                    break;
+                case 'right':
+                    answer = document.getElementById('answer_right');
+                    break;
+            }
+            answer.innerText = text;
+        }
     });
 
     cog.PromptSystem = PromptSystem;

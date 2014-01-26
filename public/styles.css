@@ -1,3 +1,5 @@
+@font-face { font-family: Arcade; src: url('src/fonts/emulogic.ttf'); }
+
 body, html {
     margin: 0;
     padding: 0;
@@ -31,4 +33,35 @@ canvas {
     position: absolute;
     opacity: 0.50;
     text-align: center;
+}
+
+.answer{
+    color: #ffffff;
+    font-size: 0.9em;
+    font-family: Arcade;
+    animation: pulse 2s ease infinite alternate;
+    position: absolute;
+    opacity: 0.50;
+    text-align: center;
+    width: 200px;
+}
+
+#answer_up {
+    top: 125px;
+    left: calc(50% - 100px);
+}
+
+#answer_down {
+    bottom: 85px;
+    left: calc(50% - 100px);
+}
+
+#answer_left {
+    top: calc(50% - 25px);
+    left: calc(25% - 75px);
+}
+
+#answer_right {
+    top: calc(50% - 25px);
+    left: calc(75% - 100px);
 }
