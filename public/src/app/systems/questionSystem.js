@@ -93,6 +93,10 @@ define([
             var t = document.getElementById("questions");
 
             t.innerText = this.replace(Tree.questions[this.pointer].question);
+        },
+
+        'door event': function(choice) {
+
         }
     });
 
