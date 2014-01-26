@@ -2,7 +2,7 @@ define(
     {
         "questions": {
             "Basic1": {
-                "question": "Meet {name}. That is you?",
+                "question": "Meet {name}. That is you.",
                 "input": true,
                 "statement": true,
                 "next": "Basic2"
