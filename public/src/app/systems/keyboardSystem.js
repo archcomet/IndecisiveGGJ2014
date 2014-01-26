@@ -1,7 +1,8 @@
 define([
-    'cog'
+    'cog',
+    'components/shapeComponent'
 
-], function(cog) {
+], function(cog, ShapeComponent) {
 
     var KeyboardSystem = cog.System.extend({
 
@@ -9,7 +10,8 @@ define([
             direction: {
                 x: 0,
                 y: 0
-            }
+            },
+            inputShape: null
         },
 
         configure: function(entities, events) {
@@ -34,18 +36,30 @@ define([
                 case 68: // d
                     this.direction.x = .5 * multiplyer;
                     break;
+                case 74: // j
+                    this.inputShape = ShapeComponent.TYPE_SQUARE;
+                    break;
+                case 75: // k
+                    this.inputShape = ShapeComponent.TYPE_TRIANGLE;
+                    break;
+                case 76: // l
+                    this.inputShape = ShapeComponent.TYPE_CIRCLE;
+                    break;
                 default:
                     break;
+            }
 
-            };
         },
 
         update: function(entities, events) {
             if(this.direction.x !== 0 || this.direction.y !== 0) {
                 // dY is reversed
                 events.emit("playerSeekDirection", this.direction.x, this.direction.y);
-            } else {
-                events.emit("playerStop");
+            }
+
+            if (this.inputShape !== null) {
+                events.emit('playerChangeShape', this.inputShape);
+                this.inputShape = null;
             }
         }
     });

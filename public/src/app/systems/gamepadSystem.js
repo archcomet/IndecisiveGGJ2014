@@ -1,7 +1,8 @@
 define([
     'cog',
-    'gamepad'
-], function(cog, Gamepad) {
+    'gamepad',
+    'components/shapeComponent'
+], function(cog, Gamepad, ShapeComponent) {
 
     var GamepadSystem = cog.System.extend({
 
@@ -9,7 +10,8 @@ define([
             direction: {
                 x: 0,
                 y: 0
-            }
+            },
+            inputShape: null
         },
 
         configure: function(entities, events) {
@@ -24,17 +26,16 @@ define([
             });
 
             gamepad.bind(Gamepad.Event.BUTTON_DOWN, function(device) {
-                var value = "";
                 switch(device.control) {
-                    case "FACE_1":
-                        value = "x";
-                        break;
                     case "FACE_2":
-                        value = "o";
+                        this.inputShape = ShapeComponent.TYPE_CIRCLE;
                         break;
-                }
-                if(value !== "") {
-                    events.emit("button", value);
+                    case "FACE_3":
+                        this.inputShape = ShapeComponent.TYPE_SQUARE;
+                        break;
+                    case "FACE_4":
+                        this.inputShape = ShapeComponent.TYPE_TRIANGLE;
+                        break;
                 }
             }.bind(this));
 
@@ -62,8 +63,11 @@ define([
             if(this.direction.x !== 0 || this.direction.y !== 0) {
                 // dY is reversed
                 events.emit("playerSeekDirection", this.direction.x, -this.direction.y);
-            } else {
-                events.emit("playerStop");
+            }
+
+            if (this.inputShape !== null) {
+                events.emit('playerChangeShape', this.inputShape);
+                this.inputShape = null;
             }
         }
     });

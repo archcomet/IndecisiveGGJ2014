@@ -4,9 +4,24 @@ define([
     'components/threeComponent',
     'components/steeringComponent',
     'components/playerComponent',
-    'components/enemyAIComponent'
+    'components/enemyAIComponent',
+    'components/shapeComponent',
+    'components/materialComponent'
 
-], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent, EnemyAIComponent) {
+], function(cog, THREE, THREEComponent, SteeringComponent, PlayerComponent, EnemyAIComponent, ShapeComponent, MaterialComponent) {
+
+    var CUBE_GEO = new THREE.CubeGeometry(200, 200, 200);
+
+    var SPHERE_GEO = new THREE.SphereGeometry(150);
+
+    var TETRAHEDRON_GEO = new THREE.TetrahedronGeometry(200);
+
+    var MATERIAL = new THREE.MeshPhongMaterial({
+        ambient: 0x333333,
+        color: 0x00ff00,
+        emissive: 0xaaaaaa,
+        shininess: 100
+    });
 
     var PlayerSystem = cog.Factory.extend('PlayerSystem', {
 
@@ -16,6 +31,24 @@ define([
             object3d: {
                 constructor: THREEComponent
             },
+            material: {
+                constructor: MaterialComponent,
+                defaults: {
+                    materialType: MaterialComponent.TYPE_PREY,
+                    preyMaterial: MATERIAL,
+                    needsUpdate: true
+                }
+            },
+            shape: {
+                constructor: ShapeComponent,
+                defaults: {
+                    squareGeometry: CUBE_GEO,
+                    triangleGeometry: TETRAHEDRON_GEO,
+                    circleGeometry: SPHERE_GEO,
+                    needsUpdate: true
+                }
+            },
+
             steering: {
                 constructor: SteeringComponent,
                 defaults: {
@@ -30,24 +63,9 @@ define([
         },
 
         defaults: {
-            player: null
-        },
-
-        spawn: function(config) {
-
-            var entity = this._super(config),
-                length = entity.components(PlayerComponent).length;
-
-            var geometry = new THREE.CubeGeometry(length, length, length),
-                material = new THREE.MeshPhongMaterial({
-                        ambient: 0x333333,
-                        color: 0x00ff00,
-                        shininess: 100
-                    });
-
-            entity.components(THREEComponent).mesh = new THREE.Mesh(geometry, material);
-
-            return entity;
+            player: null,
+            currentShape: null,
+            inputShape: null
         },
 
         configure: function(entities, events) {
@@ -60,17 +78,17 @@ define([
             steeringComponent.target.y = 0;
 
             this.player = entity;
-
-            events.emit('addToScene', entity);
-            events.emit('playSound', 'square');
         },
 
         update: function(entities, events) {
             var enemyPosition,
                 enemies = entities.withComponents(EnemyAIComponent),
                 playerPosition = this.player.components(THREEComponent).mesh.position,
+                playerSteering = this.player.components(SteeringComponent),
                 i = 0,
                 n = enemies.length;
+
+            this.events = events;
 
             var enemyOffset = new THREE.Vector3(),
                 enemyOffsetLength;
@@ -88,25 +106,57 @@ define([
                     events.emit('enemyCollisionEvent', enemies[i], this.player);
                 }
             }
+
+            if (this.direction) {
+                playerSteering.behavior = 'seek';
+                playerSteering.target.x = playerPosition.x + this.direction.dx * 50;
+                playerSteering.target.y = playerPosition.y + this.direction.dy * 50;
+
+            } else {
+                playerSteering.behavior = undefined;
+            }
+
+            this.direction = null;
         },
 
         handleCollision: function(enemy) {
-            //game.events.emit('playSound', 'negative_hit');
+        //     game.events.emit('playSound', 'shape_disappear');
         },
 
         'playerSeekDirection event': function(dx, dy) {
-            var pos = this.player.components(THREEComponent).mesh.position,
-                steering = this.player.components(SteeringComponent);
-
-            steering.behavior = 'seek';
-            steering.target.x = pos.x + dx * 50;
-            steering.target.y = pos.y + dy * 50;
+            this.direction = {
+                dx: dx,
+                dy: dy
+            };
         },
 
-        'playerStop event': function() {
+        'playerChangeShape event': function(geometryType) {
+            if (this.currentShape !== geometryType) {
+                var shape = this.player.components(ShapeComponent);
 
-            var steering = this.player.components(SteeringComponent);
-            steering.behavior = undefined;
+                shape.geometryType = geometryType;
+                shape.needsUpdate = true;
+
+                switch(geometryType) {
+                    case ShapeComponent.TYPE_SQUARE:
+                        this.events.emit('playSound', 'square');
+                        this.events.emit('stopSound', 'triangle');
+                        this.events.emit('stopSound', 'circle');
+                        break;
+                    case ShapeComponent.TYPE_TRIANGLE:
+                        this.events.emit('stopSound', 'square');
+                        this.events.emit('playSound', 'triangle');
+                        this.events.emit('stopSound', 'circle');
+                        break;
+                    case ShapeComponent.TYPE_CIRCLE:
+                        this.events.emit('stopSound', 'square');
+                        this.events.emit('stopSound', 'triangle');
+                        this.events.emit('playSound', 'circle');
+                        break;
+                }
+
+                this.currentShape = geometryType;
+            }
         }
 
     });

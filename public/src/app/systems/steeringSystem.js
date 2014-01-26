@@ -17,6 +17,8 @@ define([
                 i = 0,
                 n = entityArray.length;
 
+            this.entityArray = entityArray;
+
             for (; i < n; ++i) {
                 steering = entityArray[i].components(SteeringComponent);
                 object3d = entityArray[i].components(ThreeComponent).mesh;
@@ -63,6 +65,7 @@ define([
             desiredVelocity.normalize();
             desiredVelocity.multiplyScalar(speed);
 
+            this.separation(desiredVelocity, steering, object3d);
             this.steerForVelocity(desiredVelocity, steering, object3d);
         },
 
@@ -76,6 +79,48 @@ define([
             desiredVelocity.multiplyScalar(steering.maxSpeed);
 
             this.steerForVelocity(desiredVelocity, steering, object3d);
+        },
+
+        separation: function(desiredVelocity, steering, object3d) {
+
+            if (!steering.neighborhood) {
+                return;
+            }
+
+            var otherSteering,
+                otherObject3d,
+                entityArray = this.entityArray,
+                i = 0,
+                n = entityArray.length,
+                offset = new THREE.Vector3(),
+                matches = [];
+
+            for (; i < n; ++i) {
+                otherSteering = entityArray[i].components(SteeringComponent);
+
+                if (!otherSteering.neighborhood || steering === otherSteering) {
+                    continue;
+                }
+
+                otherObject3d = entityArray[i].components(ThreeComponent).mesh;
+                offset.copy(otherObject3d.position);
+                offset.sub(object3d.position);
+
+                if (offset.length() < steering.neighborhood) {
+                    matches.push(otherObject3d.position);
+                }
+            }
+
+            if (matches.length) {
+
+                for(i = 0, n = matches.length; i < n; ++i) {
+
+                    offset.copy(object3d.position);
+                    offset.sub(matches[i]);
+
+                    desiredVelocity.add(offset);
+                }
+            }
         },
 
         steerForVelocity: function(desiredVelocity, steering, object3d) {
