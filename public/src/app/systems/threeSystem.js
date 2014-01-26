@@ -109,6 +109,10 @@ define([
 
                 this.scene.remove(threeObject);
             }
+        },
+
+        'THREEComponent removed event': function(threeObject) {
+            this.scene.remove(threeObject.mesh);
         }
 
     });
