@@ -2,7 +2,7 @@ define(
     {
         "questions": {
             "Basic1": {
-                "question": "Meet {name}. That is you.",
+                "question": "Meet {name}. That is you?",
                 "input": true,
                 "statement": true,
                 "next": "Basic2"
@@ -15,7 +15,7 @@ define(
                 "year": 0
             },
             "Basic3": {
-                "question": "{name} as born a she.",
+                "question": "{name} was born a she.",
                 "answers": {
                     "agree": {
                         "answer": "That's right.",
@@ -75,7 +75,7 @@ define(
                 "next": "Childhood3"
             },
             "Childhood3": {
-                "question": "{friendName} was oftern very mean to {name}.",
+                "question": "{friendName} was often very mean to {name}.",
                 "statement": true,
                 "next": "Childhood4"
             },
@@ -137,7 +137,7 @@ define(
                 }
             },
             "Highschool3": {
-                "question": "A nerd.",
+                "question": "Nerd.",
                 "statement": true,
                 "next": "Highschool4"
             },
