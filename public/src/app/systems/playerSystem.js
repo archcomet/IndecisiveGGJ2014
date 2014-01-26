@@ -129,12 +129,9 @@ define([
                 playerGeometry = this.player.components(ShapeComponent).geometryType;
 
             if (enemyGeometry === playerGeometry) {
-                this.events.emit('playSound', 'shape_appear');
                 this.events.emit('goodCollision', enemyPosition);
 
             } else {
-
-                this.events.emit('playSound', 'shape_disappear');
                 this.events.emit('badCollision', enemyPosition);
             }
 
@@ -178,19 +175,13 @@ define([
 
                 switch(geometryType) {
                     case ShapeComponent.TYPE_SQUARE:
-                        this.events.emit('unmuteSound', 'square');
-                        this.events.emit('muteSound', 'triangle');
-                        this.events.emit('muteSound', 'mystery');
+                        this.events.emit('playerShapeChanged', 'square');
                         break;
                     case ShapeComponent.TYPE_TRIANGLE:
-                        this.events.emit('unmuteSound', 'triangle');
-                        this.events.emit('muteSound', 'square');
-                        this.events.emit('muteSound', 'mystery');
+                        this.events.emit('playerShapeChanged', 'triangle');
                         break;
                     case ShapeComponent.TYPE_CIRCLE:
-                        this.events.emit('unmuteSound', 'mystery');
-                        this.events.emit('muteSound', 'square');
-                        this.events.emit('muteSound', 'triangle');
+                        this.events.emit('playerShapeChanged', 'circle');
                         break;
                 }
 

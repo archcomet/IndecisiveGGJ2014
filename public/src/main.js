@@ -88,11 +88,6 @@
                     fileName: 'sfx/TriangleTransformation_01.mp3'
                 },
                 {
-                    name: 'mystery',
-                    fileName: 'music/mystery.mp3',
-                    loop: true
-                },
-                {
                     name: 'square',
                     fileName: 'music/square.mp3',
                     loop: true
@@ -104,7 +99,7 @@
                 },
                 {
                     name: 'circle',
-                    fileName: 'music/circle.mp3',
+                    fileName: 'music/mystery.mp3',
                     loop: true
                 }
             ]
@@ -114,10 +109,6 @@
         game.systems.add(SoundSystem);
         game.systems.add(ThreeSystem);
         game.systems.add(MeshSystem);
-
-        game.events.emit('playSound', 'mystery');
-        game.events.emit('playSound', 'triangle', 0);
-        game.events.emit('playSound', 'square', 0);
 
         // Input
         game.systems.add(KeyboardSystem);
