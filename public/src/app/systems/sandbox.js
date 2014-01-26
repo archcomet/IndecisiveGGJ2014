@@ -2,9 +2,12 @@ define([
     'cog',
     'three',
     'components/threeComponent',
-    'components/steeringComponent'
+    'components/steeringComponent',
+    'geometry/wallhorizontalgeometry',
+    'geometry/wallverticalgeometry',
+    'material/wallmaterial'
 
-], function(cog, THREE, THREEComponent, SteeringComponent) {
+], function(cog, THREE, THREEComponent, SteeringComponent, wallHorizontalGeometryData, wallVerticalGeometryData, wallMaterialData) {
 
     var SandboxSystem = cog.System.extend('SandboxSystem', {
 
@@ -14,36 +17,25 @@ define([
 
         createWalls: function(entities, events) {
 
-            var horizontalWall = new THREE.CubeGeometry(8000, 100, 100),
-                verticalWall = new THREE.CubeGeometry(100, 5200, 100);
+            this.createWallEntity(entities, events, wallHorizontalGeometryData, wallMaterialData, 0, 2550, 0);
+            this.createWallEntity(entities, events, wallHorizontalGeometryData, wallMaterialData, 0, -2550, 0);
 
-            var wallMaterial = new THREE.MeshPhongMaterial({
-                ambient: 0xff0000,
-                color: 0xff0000,
-                shininess: 50
-            });
-
-            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 0, 2550, 0);
-            this.createWallEntity(entities, events, horizontalWall, wallMaterial, 0, -2550, 0);
-
-            this.createWallEntity(entities, events, verticalWall, wallMaterial, 4050, 0, 0);
-            this.createWallEntity(entities, events, verticalWall, wallMaterial, -4050, 0, 0);
+            this.createWallEntity(entities, events, wallVerticalGeometryData, wallMaterialData, 4050, 0, 0);
+            this.createWallEntity(entities, events, wallVerticalGeometryData, wallMaterialData, -4050, 0, 0);
 
         },
 
-        createWallEntity: function(entities, events, geometry, material, x, y, z) {
-
-            var mesh = new THREE.Mesh(geometry, material);
-                mesh.position.set(x, y, z);
-
+        createWallEntity: function(entities, events, geometryData, materialData, x, y, z) {
 
             var wallEntity = entities.add('wall');
-                wallEntity.components.assign(THREEComponent, {  mesh: mesh });
+
+            var wallComponent = wallEntity.components.assign(THREEComponent, { geometryData: geometryData,
+                                                                                materialData: materialData });
+
+            wallComponent.mesh.position.set(x, y, z);
 
             events.emit('addToScene', wallEntity);
         }
-
-
     });
 
     cog.SandboxSystem = SandboxSystem;

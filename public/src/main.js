@@ -8,7 +8,9 @@
             'three': 'libs/three',
             'gamepad': 'libs/gamepad',
             'systems': 'app/systems',
-            'components': 'app/components'
+            'components': 'app/components',
+            'geometry': 'app/assets/geometry',
+            'material': 'app/assets/material'
         },
 
         shim: {
