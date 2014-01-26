@@ -21,13 +21,15 @@
 
     require([
         'cog',
+        'systems/soundSystem',
         'systems/threeSystem',
         'systems/steeringSystem',
         'systems/sandbox',
         'systems/playerSystem',
+        'systems/enemyAISystem',
         'systems/gamepadSystem',
         'systems/questionSystem'
-    ], function(cog, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, GamepadSystem, QuestionSystem) {
+    ], function(cog, SoundSystem, ThreeSystem, SteeringSystem, SandboxSystem, PlayerSystem, EnemyAISystem, GamepadSystem, QuestionSystem) {
 
         var game = cog.createDirector({
             fixedDt: false,
@@ -69,11 +71,13 @@
             ]
         });
 
+        game.systems.add(SoundSystem);
         game.systems.add(ThreeSystem);
         game.systems.add(SteeringSystem);
         game.systems.add(SandboxSystem);
         game.systems.add(PlayerSystem);
         game.systems.add(GamepadSystem);
+        game.systems.add(EnemyAISystem);
         game.systems.add(QuestionSystem);
 
         game.start();

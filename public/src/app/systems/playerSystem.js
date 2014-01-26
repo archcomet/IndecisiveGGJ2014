@@ -88,12 +88,34 @@ define([
                     events.emit('enemyCollisionEvent', enemies[i], this.player);
                 }
             }
+
+            this.updateEvents(playerPosition, events);
         },
 
         handleCollision: function(enemy) {
 
         },
 
+        updateEvents: function(playerPosition, events) {
+            // send events at doors
+            if(playerPosition.y > -500 && playerPosition.y < 500) {
+                if(playerPosition.x === 4000) {
+                    events.emit("door", "right");
+                    playerPosition.x = -3990;
+                } else if(playerPosition.x === -4000) {
+                    events.emit("door", "left");
+                    playerPosition.x = 3990;
+                }
+            } else if(playerPosition.x > -500 && playerPosition.x < 500) {
+                if(playerPosition.y === 2500) {
+                    events.emit("door", "down");
+                    playerPosition.y = -2490;
+                } else if(playerPosition.y === -2500) {
+                    events.emit("door", "up");
+                    playerPosition.y = 2490;
+                }
+            }
+        },
 
         'playerSeekDirection event': function(dx, dy) {
             var pos = this.player.components(THREEComponent).mesh.position,

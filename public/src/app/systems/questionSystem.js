@@ -96,7 +96,35 @@ define([
         },
 
         'door event': function(choice) {
+            var next = "";
+            if(!Tree.questions[this.pointer].statement) {
+                var answers = Tree.questions[this.pointer].answers;
+                if(choice === 'up') {
+                    next = answers.agree.next;
+                    if(answers.agree.command) {
+                        this.setValue(answers.agree.command);
+                    }
+                } else if(choice === 'down') {
+                    next = answers.disagree.next;
+                    if(answers.agree.command) {
+                        this.setValue(answers.disagree.command);
+                    }
+                }
+            }
 
+            if(!next) {
+                next = Tree.questions[this.pointer].next;
+            }
+
+            if(Tree.questions[next].year) {
+                this.currentDate = this.birthDate + Tree.questions[next].year;
+            }
+
+            this.pointer = next;
+
+            var t = document.getElementById("questions");
+
+            t.innerText = this.replace(Tree.questions[this.pointer].question);
         }
     });
 
