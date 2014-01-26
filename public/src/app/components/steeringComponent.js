@@ -16,6 +16,8 @@ define([
 
             slowingDistance: 100,
 
+            drag: 0.2,
+
             // things for calculations
 
             velocity: null,

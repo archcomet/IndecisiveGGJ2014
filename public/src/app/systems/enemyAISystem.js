@@ -39,8 +39,35 @@ define([
         },
 
         spawn: function(config) {
-            var entity = this._super(config),
-                mesh = new THREE.Mesh(this.geometry, this.material);
+            var entity = this._super(config);
+
+            var enemyAI = entity.components(EnemyAIComponent),
+                enemySteering = entity.components(SteeringComponent),
+                enemyGeometry, enemyMaterial;
+
+            enemySteering.maxSpeed *= cog.rand.arc4rand(1.75, 2.25);
+            enemySteering.maxAcceleration *= cog.rand.arc4rand(0.75, 1.25);
+
+            enemyAI.shape = cog.rand.arc4randInt(0, 2);
+
+            switch(enemyAI.shape) {
+                case EnemyAIComponent.SHAPE_SQUARE:
+                    enemyGeometry = this.cubeGeometry;
+                    enemyMaterial = this.preyMaterial;
+                    break;
+
+                case EnemyAIComponent.SHAPE_CIRCLE:
+                    enemyGeometry = this.sphereGeometry;
+                    enemyMaterial = this.predatorMaterial;
+                    break;
+
+                case EnemyAIComponent.SHAPE_TRIANGLE:
+                    enemyGeometry = this.tetrahedronGeometry;
+                    enemyMaterial = this.predatorMaterial;
+                    break;
+            }
+
+            var mesh = new THREE.Mesh(enemyGeometry, enemyMaterial);
 
             if (config.position) {
                 mesh.position.set(config.position.x, config.position.y, 0);
@@ -57,10 +84,21 @@ define([
             this.events = events;
             this.player = entities.withTag('Player')[0];
 
-            this.geometry = new THREE.CubeGeometry(100, 100, 100);
-            this.material = new THREE.MeshPhongMaterial({
-                ambient: 0x333333,
-                color: 0xffffff,
+            this.cubeGeometry = new THREE.CubeGeometry(150, 150, 150);
+            this.sphereGeometry = new THREE.SphereGeometry(100);
+            this.tetrahedronGeometry = new THREE.TetrahedronGeometry(150);
+
+            this.preyMaterial = new THREE.MeshLambertMaterial({
+                ambient: 0x000033,
+                color: 0x0000ff,
+                emissive: 0x000033,
+                shininess: 50
+            });
+
+            this.predatorMaterial = new THREE.MeshLambertMaterial({
+                ambient: 0x330000,
+                color: 0xff0000,
+                emissive: 0x000033,
                 shininess: 50
             });
 
@@ -149,10 +187,18 @@ define([
 
         handleSeekPlayer: function(enemyEntity, playerPosition) {
 
+            var enemySteering = enemyEntity.components(SteeringComponent);
+            enemySteering.behavior = 'seek';
+            enemySteering.target.copy(playerPosition);
         },
 
         handleDefault: function(enemyEntity) {
-            enemyEntity.components(EnemyAIComponent).state = EnemyAIComponent.AI_FLEE_PLAYER;
+
+            if (enemyEntity.components(EnemyAIComponent).shape === EnemyAIComponent.SHAPE_SQUARE) {
+                enemyEntity.components(EnemyAIComponent).state = EnemyAIComponent.AI_FLEE_PLAYER;
+            } else {
+                enemyEntity.components(EnemyAIComponent).state = EnemyAIComponent.AI_SEEK_PLAYER;
+            }
         }
 
     });

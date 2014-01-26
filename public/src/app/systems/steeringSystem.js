@@ -30,11 +30,9 @@ define([
         /*** behaviors ***/
 
         updateBehavior: function(steering, object3d) {
-            if (!steering.behavior || !this[steering.behavior]) {
-                return;
+            if (steering.behavior && this[steering.behavior]) {
+                this[steering.behavior](steering, object3d);
             }
-            this[steering.behavior](steering, object3d);
-            // rotate to velocity
         },
 
         arrival: function(steering, object3d) {
@@ -93,10 +91,26 @@ define([
 
         updatePosition: function(steering, object3d) {
 
+            var speed = steering.velocity.length();
+
+            if (!steering.behavior) {
+                speed *= (1 - steering.drag);
+            }
+
             // Cap velocity
-            if (steering.velocity.lengthSq() > steering.maxSpeed * steering.maxSpeed) {
-                steering.velocity.normalize();
-                steering.velocity.multiplyScalar(steering.maxSpeed);
+            if (speed > steering.maxSpeed) {
+                speed = steering.maxSpeed;
+            }
+
+            steering.velocity.normalize();
+            steering.velocity.multiplyScalar(speed);
+
+            if (Math.abs(steering.velocity.x) < 0.0000001) {
+                steering.velocity.x = 0;
+            }
+
+            if (Math.abs(steering.velocity.y) < 0.0000001) {
+                steering.velocity.y = 0;
             }
 
             // adjust position
