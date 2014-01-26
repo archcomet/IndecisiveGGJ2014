@@ -62,6 +62,8 @@ define([
             if(this.direction.x !== 0 || this.direction.y !== 0) {
                 // dY is reversed
                 events.emit("playerSeekDirection", this.direction.x, -this.direction.y);
+            } else {
+                events.emit("playerStop");
             }
         }
     });
