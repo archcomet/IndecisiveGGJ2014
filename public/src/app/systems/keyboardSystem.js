@@ -25,16 +25,16 @@ define([
 
             switch (event.keyCode) {
                 case 87: // w
-                    this.direction.y = .5 * multiplyer;
+                    this.direction.y = 1 * multiplyer;
                     break;
                 case 83: // s
-                    this.direction.y = -.5 * multiplyer;
+                    this.direction.y = -1 * multiplyer;
                     break;
                 case 65: // a
-                    this.direction.x = -.5 * multiplyer;
+                    this.direction.x = -1 * multiplyer;
                     break;
                 case 68: // d
-                    this.direction.x = .5 * multiplyer;
+                    this.direction.x = 1 * multiplyer;
                     break;
                 case 74: // j
                     this.inputShape = ShapeComponent.TYPE_SQUARE;
