@@ -192,7 +192,7 @@ define(
                 "next": "Highschool7"
             },
             "Highschool7": {
-                "question": "{name} was thinking of that {otherGender}, like all the time.",
+                "question": "{name} was thinking of that {otherGender}, like, all the time.",
                 "spawn": 0,
                 "next": "Highschool8"
             },
