@@ -9,6 +9,8 @@ Don't worry. There is a party at the end. :)
 
 Play it here: http://archcomet.github.io/IndecisiveGGJ2014/public/ 
 
+More info here: http://globalgamejam.org/2014/games/indecisive
+
 
 Credits:
 ---------
