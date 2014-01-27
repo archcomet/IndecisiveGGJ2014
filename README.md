@@ -7,6 +7,8 @@ Play through a story of your life, while dodging shapes that are different than 
 
 Don't worry. There is a party at the end. :)
 
+Play it here: http://archcomet.github.io/IndecisiveGGJ2014/public/ 
+
 
 Credits:
 ---------
