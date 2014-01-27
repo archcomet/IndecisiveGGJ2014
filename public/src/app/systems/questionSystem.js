@@ -53,10 +53,12 @@ define([
                         }
                         break;
                     case "attraction":
-                        if(values[1] === "other") {
+                        if(values[1] === "guy") {
+                            this.otherGender = "guy";
+                            this.otherPronoun = "he";
                         } else {
-                            this.otherGender = this.gender;
-                            this.otherPronoun = this.pronoun;
+                            this.otherGender = "girl";
+                            this.otherPronoun = "she";
                         }
                         break;
                 }
