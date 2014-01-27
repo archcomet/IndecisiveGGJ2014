@@ -9,12 +9,12 @@ Don't worry. There is a party at the end. :)
 
 Play it here: http://archcomet.github.io/IndecisiveGGJ2014/public/ 
 
-Controls: 
-WASD: To move
+Controls:   
+WASD: To move  
 JKL: To change shape
 
-Or on a gamepad:
-Left stick to move
+Or on a gamepad:  
+Left stick to move  
 Face buttons to change shape
 
 More info here: http://globalgamejam.org/2014/games/indecisive
