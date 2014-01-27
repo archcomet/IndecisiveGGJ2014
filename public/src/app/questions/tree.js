@@ -169,16 +169,16 @@ define(
                 "next": "Highschool5"
             },
             "Highschool5": {
-                "question":  "Are you attracted to {otherGender}s?",
+                "question":  "Are you attracted to guys?",
                 "answers": {
                     "agree": {
                         "answer": "Yep.",
-                        "command": "attraction other",
+                        "command": "attraction guy",
                         "position": "up"
                     },
                     "disagree": {
                         "answer": "Nope.",
-                        "command": "attraction same",
+                        "command": "attraction girl",
                         "position": "left"
                     }
                 },
@@ -192,7 +192,7 @@ define(
                 "next": "Highschool7"
             },
             "Highschool7": {
-                "question": "{name} was thinking of that {otherGender}, like all the time.",
+                "question": "{name} was thinking of that {otherGender}, like, all the time.",
                 "spawn": 0,
                 "next": "Highschool8"
             },
