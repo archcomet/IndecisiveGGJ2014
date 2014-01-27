@@ -13,7 +13,7 @@ Credits:
 * Michael Good - _Merge Master_ - archcomet@gmail.com
 * Michael Skiles - _"Trekkie" for lyfe_ - skiles85@gmail.com
 * Tim Letz - _"I don't normally boot up this partition"_ - tim.letz@comecast.net
-* Louis Carl Pepin - _"We need to make it more pretensious"_ - lcpepin@louiscarl.com
+* Louis Carl Pepin - _"We need to make it more pretentious"_ - lcpepin@louiscarl.com
 * Auston Montville - _It's not a bug..._ - auston.montville@gmail.com
 * Gabe Geisendorfer - _Family jammer_ - gabepg@gmail.com
 * Joseph Clark - _Airdropped the beats_ - audibleclark@gmail.com
