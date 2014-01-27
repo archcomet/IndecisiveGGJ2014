@@ -27,6 +27,17 @@ define([
 
             gamepad.bind(Gamepad.Event.BUTTON_DOWN, function(device) {
                 switch(device.control) {
+                    case "START_FORWARD":
+
+                        if(this.stopped) {
+                            game.start();
+                            this.stopped = false;
+                        }
+                        else {
+                            game.stop();
+                            this.stopped = true;
+                        }
+                        break;
                     case "FACE_2":
                         this.inputShape = ShapeComponent.TYPE_CIRCLE;
                         break;
